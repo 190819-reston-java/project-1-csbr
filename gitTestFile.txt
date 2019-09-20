@@ -10,3 +10,5 @@ hi
 spam
 span
 hi
+
+*Keep in mind that all commits before the "Initialized Project" commit are an exercise in examining merge conflicts that can happen in a collaborative project, and aren't intended to be formal, hence the rather "random" names.
