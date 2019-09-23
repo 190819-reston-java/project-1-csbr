@@ -20,10 +20,14 @@ select * from work_table;
 select * from reimbursements;
 select * from reimb_reciepts;
 
+UPDATE reimbursements SET reimb_status = false WHERE work_mgr_id_fk = 'whois';
+update work_table set employee_or_manager = false where work_id = 'asdf134';
+
 insert into reimb_reciepts(reimb_id_fk,reciept_img_path) 
 values ('235gfg','/users/blah/example.jpg');
 insert into reimb_reciepts(reimb_id_fk,reciept_img_path) 
 values ('235gfg','/users/blah/another_example.jpg');
+-- this query doesn't work since there's no '233gfg' in the table.
 insert into reimb_reciepts(reimb_id_fk,reciept_img_path) 
 values ('233gfg','/users/blah/another_example.jpg');
 
