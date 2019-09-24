@@ -1,41 +1,42 @@
 package com.revature.beans;
 
+import java.util.ArrayList;
+
 public class ReimbReq {
 
-	private boolean status;
-	private boolean pending;
+	private String status;
 	private double balance;
 	private String origIssuer;
 	private String resolver;
+	private ArrayList<String> filePaths;
 	
 	public ReimbReq() {
-		status = false;
-		pending = false;
+		status = "";
 		balance = 0.0;
 		origIssuer = "";
 		resolver = "";
+		filePaths = new ArrayList<String>();
 	}
 	
-	public ReimbReq(boolean status, boolean pending, double balance, String origIssuer, String resolver) {
+	public ReimbReq(String status, double balance, String origIssuer, String resolver) {
 
 		this.status = status;
-		this.pending = pending;
 		this.balance = balance;
 		this.origIssuer = origIssuer;
 		this.resolver = resolver;
+		filePaths = new ArrayList<String>();
 	}
 	
-	public boolean isStatus() {
+	public String getStatus() {
 		return status;
 	}
-	public void setStatus(boolean status) {
-		this.status = status;
-	}
-	public boolean isPending() {
-		return pending;
-	}
-	public void setPending(boolean pending) {
-		this.pending = pending;
+	public void setStatus(String status) {
+		if (status.equalsIgnoreCase("pending") ||
+			status.equalsIgnoreCase("denied") ||
+			status.equalsIgnoreCase("accepted"))
+			this.status = status;
+		else
+			this.status = "#ERROR";
 	}
 	public double getBalance() {
 		return balance;
@@ -54,6 +55,13 @@ public class ReimbReq {
 	}
 	public void setResolver(String resolver) {
 		this.resolver = resolver;
+	}
+	
+	public String getFilePath(int position) {
+		return filePaths.get(position);
+	}
+	public void setFilePath(String filePath) {
+		filePaths.add(filePath);
 	}
 	
 	

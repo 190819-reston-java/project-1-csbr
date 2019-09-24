@@ -4,28 +4,41 @@ import java.util.Arrays;
 
 public class OrgMember {
 	
+	private String username;
 	private String name;
 	private String[] TYPE = {"Employee","Manager"};
 	private String typeOfMem;
 	private boolean determine;
 	private String password;
 	private String email;
+	private String address;
+	private String city;
+	private String country;
 	
 	public OrgMember() {
+		username = "";
 		name = "";
 		typeOfMem = "";
 		determine = true;
 		password = "";
 		email = "";
+		address = "";
+		city = "";
+		country = "";
 	}
 	
 	
-	public OrgMember(String name, boolean determine, String password, String email) {
+	public OrgMember(String username, String name, 
+			boolean determine, String password, String email) {
 
 		this.name = name;
 		this.determine = determine;
 		this.password = password;
 		this.email = email;
+		
+		this.address = "";
+		this.city = "";
+		this.country = "";
 		
 		setTypeOfMem(determine);
 	}
@@ -39,6 +52,18 @@ public class OrgMember {
 			typeOfMem = TYPE[0];
 		else
 			typeOfMem = TYPE[1];
+	}
+
+
+	
+	
+	public String getUsername() {
+		return username;
+	}
+
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 
@@ -79,6 +104,36 @@ public class OrgMember {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+
+	public String getAddress() {
+		return address;
+	}
+
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+
+	public String getCity() {
+		return city;
+	}
+
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+
+	public String getCountry() {
+		return country;
+	}
+
+
+	public void setCountry(String country) {
+		this.country = country;
 	}
 
 
