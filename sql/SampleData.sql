@@ -20,6 +20,7 @@ select * from work_table;
 select * from reimbursements;
 select * from reimb_reciepts;
 
+
 UPDATE reimbursements SET reimb_status = false WHERE work_mgr_id_fk = 'whois';
 update work_table set employee_or_manager = false where work_id = 'asdf134';
 
@@ -34,4 +35,4 @@ values ('233gfg','/users/blah/another_example.jpg');
 delete from reimb_reciepts where reimb_id_fk = '235gfg';
 
 drop table reimb_reciepts;
-alter table 
+alter table reimb_reciepts 
