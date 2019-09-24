@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en_US" lang="en_US">
+<head><title>This is a 404 page not found page.</title></head>
+  <body>
+    <p id="info404">If this javascript had been enabled and working when this page was loaded, the url and client time of day that this page was loaded would be here.</p>
+    <p>This is a 404 "page not found" page. <br /> Perhaps this was not the right url?</p>
+<!-- http://blog.stevenlevithan.com/archives/date-time-format -->
+<script src="date.format.js"  type="text/javascript"></script>
+<script type="text/javascript"> 
+  "use strict";
+  var d = new Date();
+  var datetime = d.format("yyyy-mm-dd'T'HH:MM:ss") + "." + d.getMilliseconds() + d.format("_Z");
+
+  var linkurl = document.URL;
+  var selflink = document.createElement("a");
+  var br = document.createElement("br");
+  var host = document.createElement("a");
+  
+  selflink.setAttribute('href', linkurl);
+  selflink.setAttribute('title', linkurl);
+  selflink.innerHTML = linkurl;
+  
+  host.setAttribute('title', window.location.origin);
+  host.setAttribute('href', window.location.origin);
+  host.innerHTML = window.location.origin;
+   
+  document.getElementById("info404").innerHTML = "Page ";
+  document.getElementById("info404").appendChild(selflink);
+  document.getElementById("info404").innerHTML += " wasn't found."
+  document.getElementById("info404").appendChild(br);
+  /* document.getElementById("info404").innerHTML += " @"; */
+  document.getElementById("info404").innerHTML += datetime;
+  document.getElementById("info404").innerHTML += " client time";
+  document.getElementById("info404").appendChild(br);
+  document.getElementById("info404").innerHTML += "Try "
+  document.getElementById("info404").appendChild(host);
+  document.getElementById("info404").innerHTML += " instead?";
+</script>
+
+<!-- Lazy commenting out for now, just in case current version doesn't pass... -->
+<!--
+<p>
+  <a href="http://validator.w3.org/check?uri=...">
+    <img src="./valid-xhtml10.png" alt="Valid XHTML 1.0 Strict" height="31" width="88" />
+  </a>
+</p>
+-->
+
+  </body>
+</html>
+
+<!--
+  old workaround, if for some reason you don't want to create a br variable...
+  //<![CDATA[
+  document.getElementById("info404").innerHTML += "<br />" ;
+  //]]>
+-->
+
