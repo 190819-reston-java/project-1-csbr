@@ -10,7 +10,7 @@ CREATE TABLE work_table (
 	acc_email VARCHAR(40) NOT NULL,
 	address VARCHAR(50) NULL,
 	city VARCHAR(20) NULL,
-	country VARCHAR(20) NULL,
+	country VARCHAR(50) NULL,
 	PRIMARY KEY (work_id, employee_or_manager)
 );
 
