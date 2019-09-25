@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class ReimbReq {
 
+	private String id;
 	private String status;
 	private double balance;
 	private String origIssuer;
@@ -11,6 +12,7 @@ public class ReimbReq {
 	private ArrayList<String> filePaths;
 	
 	public ReimbReq() {
+		id = "";
 		status = "";
 		balance = 0.0;
 		origIssuer = "";
@@ -25,6 +27,7 @@ public class ReimbReq {
 		this.origIssuer = origIssuer;
 		this.resolver = resolver;
 		filePaths = new ArrayList<String>();
+		this.id = generateID();
 	}
 	
 	public String getStatus() {
@@ -62,6 +65,12 @@ public class ReimbReq {
 	}
 	public void setFilePath(String filePath) {
 		filePaths.add(filePath);
+	}
+	private String generateID() {
+		return Double.toString(Math.random() * 5);
+	}
+	public String getID() {
+		return id;
 	}
 	
 	
