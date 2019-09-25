@@ -7,6 +7,15 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>project-1-CsBr Maven Webapp</name>
   <url>http://maven.apache.org</url>
+  
+  <properties>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+
+		<!-- Specifies where the properties file is located -->
+		<log4j.configuration>log4j.properties</log4j.configuration>
+	</properties>
+  
     <dependencies>
 		<!-- JUnit -->
 		<dependency>

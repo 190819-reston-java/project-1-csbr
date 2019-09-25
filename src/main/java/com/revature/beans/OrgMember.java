@@ -31,6 +31,7 @@ public class OrgMember {
 	public OrgMember(String username, String name, 
 			boolean determine, String password, String email) {
 
+		this.username = username;
 		this.name = name;
 		this.determine = determine;
 		this.password = password;
@@ -39,6 +40,23 @@ public class OrgMember {
 		this.address = "";
 		this.city = "";
 		this.country = "";
+		
+		setTypeOfMem(determine);
+	}
+	
+	public OrgMember(String username, String name, 
+			boolean determine, String password, 
+			String email, String address, String city,
+			String country) {
+
+		this.username = username;
+		this.name = name;
+		this.determine = determine;
+		this.password = password;
+		this.email = email;
+		this.address = address;
+		this.city = city;
+		this.country = country;
 		
 		setTypeOfMem(determine);
 	}
