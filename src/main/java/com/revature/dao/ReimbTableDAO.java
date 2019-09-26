@@ -14,14 +14,15 @@ import com.revature.services.ConnectorUtil;
 
 public class ReimbTableDAO {
 	
-	public static void addNewReimbRequest(ReimbReq req) {
+	public static void addNewReimbRequest(ReimbReq req, boolean[] test) {
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		
 		final String sql = 
-				"INSERT INTO reimb_manager" + 
-				"(reimb_id,reimb_status,reimb_balance,work_mgr_id_fk,mgr_fk) " +
-				"VALUES(?,?,?,?,?);";
+				"INSERT INTO reimb_table" + 
+				"(reimb_id,reimb_status,reimb_balance,work_mgr_id_fk," + 
+				"work_emp_id_fk,mgr_fk,emp_fk) " +
+				"VALUES(?,?,?,?,?,?,?);";
 		try {
 			
 			conn = ConnectorUtil.getConnection();
@@ -32,7 +33,9 @@ public class ReimbTableDAO {
 			stmt.setString(2, "PENDING");
 			stmt.setDouble(3, req.getBalance());
 			stmt.setString(4, req.getResolver());
-			stmt.setBoolean(5, false);
+			stmt.setString(5, req.getOrigIssuer());
+			stmt.setBoolean(6, test[0]);
+			stmt.setBoolean(7, test[1]);
 			stmt.execute();
 			
 			
@@ -45,23 +48,20 @@ public class ReimbTableDAO {
 		}
 	}
 	
-	public static void addNewReimbData(OrgMember emp,
-			ReimbReq req) {
+	public static void addNewReimbReciept(ReimbReq req) {
 		Connection conn = null;
 		PreparedStatement stmt = null;
-		final String sql = "INSERT INTO reimb_employee" + 
-				"(reimb_id_fk,work_emp_id_fk,emp_fk,reciept_img_path) " + 
-				"VALUES(?,?,?,?);";
+		final String sql = "INSERT INTO reimb_reciepts" + 
+				"(reimb_id_fk,reciept_img_path) " + 
+				"VALUES(?,?);";
 		try {
 			conn = ConnectorUtil.getConnection();
 			stmt = conn.prepareStatement(sql);
 			
 			
 			stmt.setString(1, req.getID());
-			stmt.setString(2, emp.getUsername());
-			stmt.setBoolean(3, true);
 			// links to ReimbReq's arrayList, hence the position variable.
-			stmt.setString(4, req.getFilePath(0));
+			stmt.setString(2, req.getFilePath(0));
 			stmt.execute();
 		} catch (SQLException w) {
 			w.printStackTrace();
@@ -97,12 +97,20 @@ public class ReimbTableDAO {
 	}
 	
 	public static ReimbReq getReimbRequest(String username){
-		final String sql = "SELECT reimb_manager.reimb_id, reimb_manager.reimb_status, " + 
-				"reimb_manager.reimb_balance, reimb_manager.work_mgr_id_fk, " +
-				"reimb_employee.work_emp_id_fk " +
-				"FROM reimb_employee INNER JOIN reimb_manager " +
-				"ON reimb_employee.reimb_id_fk = reimb_manager.reimb_id " +
-				"WHERE reimb_employee.work_emp_id_fk = ?";
+		final String sql = "SELECT reimb_id, reimb_status, " + 
+				"reimb_balance, work_mgr_id_fk, " +
+				"work_emp_id_fk, reciept_img_path" +
+				"FROM reimb_table " +
+				"WHERE work_emp_id_fk = ?";
+		/*
+		 * final String sql = "SELECT reimb_table.reimb_id, reimb_table.reimb_status, " + 
+				"reimb_table.reimb_balance, reimb_table.work_mgr_id_fk, " +
+				"reimb_table.work_emp_id_fk, reimb_reciepts.reciept_img_path" +
+				"FROM reimb_table INNER JOIN reimb_reciepts " +
+				"ON reimb_reciepts.reimb_id_fk = reimb_table.reimb_id " +
+				"WHERE reimb_table.work_emp_id_fk = ?";
+		*/
+		
 		ReimbReq reimb = null;
 		
 		try (Connection conn = ConnectorUtil.getConnection()) {
@@ -125,8 +133,9 @@ public class ReimbTableDAO {
 	public static void getRecieptFilePaths(String username, 
 			ReimbReq request){
 		final String sql = "SELECT reciept_img_path " +
-				"FROM reimb_employee " +
-				"WHERE work_emp_id_fk = ?";
+				"FROM reimb_reciepts INNER JOIN " +
+				"ON reimb_reciepts.reimb_id_fk = reimb_table.reimb_id " +
+				"WHERE reimb_table.work_emp_id_fk = ?";
 		
 		try (Connection conn = ConnectorUtil.getConnection()) {
 			try (PreparedStatement stmt = conn.prepareStatement(sql)) {

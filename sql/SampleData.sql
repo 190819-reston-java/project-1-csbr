@@ -59,6 +59,6 @@ insert into reimb_manager(reimb_id,reimb_status,
 		values('35r3o2jr','PENDING',20.00,'whois',false);
 INSERT INTO reimb_employee(reimb_id_fk,work_emp_id_fk,emp_fk,reciept_img_path)
 	VALUES('35r3o2jr','asdf134',true,'c:/blah/examplelel.png');		
-	
+delete from reimb_manager where reimb_id = 'PL9q1oYz';
 	
 	

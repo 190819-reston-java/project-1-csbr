@@ -24,14 +24,18 @@ public class ReimbTableDAOIntegrationTest {
 		
 		OrgMember aell = ReimbTableDAO.
 				getOrgMember("asdf134", true);
+		OrgMember bell = ReimbTableDAO.
+				getOrgMember("whois", true);
+		
 		
 		ReimbReq ael = //ReimbTableDAO.getReimbRequest("asdf134");
 				// above is the retrieval of the record for "asdf134"
 				// below is the new ReimbReq object to pass to database.
 		new ReimbReq("PENDING",30.00,"asdf134","whois");
 		ael.setFilePath("c:/blah/elfjwoe.png");
-		ReimbTableDAO.addNewReimbRequest(ael);
-		ReimbTableDAO.addNewReimbData(aell, ael);
+		boolean[] tes = {aell.isDetermine(),bell.isDetermine()};
+		ReimbTableDAO.addNewReimbRequest(ael, tes);
+		ReimbTableDAO.addNewReimbReciept(ael);
 		
 		
 		ReimbTableDAO.getRecieptFilePaths("asdf134", ael);
