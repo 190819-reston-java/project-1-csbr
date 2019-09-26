@@ -1,7 +1,5 @@
 package com.revature.beans;
 
-import java.util.Arrays;
-
 public class OrgMember {
 	
 	private String username;
@@ -62,14 +60,14 @@ public class OrgMember {
 	}
 	
 	public String getTypeOfMem(boolean determine) {
-		return determine ? TYPE[0] : TYPE[1];
+		return determine ? TYPE[1] : TYPE[0];
 	}
 	
 	public void setTypeOfMem(boolean determine) {
 		if (determine)
-			typeOfMem = TYPE[0];
-		else
 			typeOfMem = TYPE[1];
+		else
+			typeOfMem = TYPE[0];
 	}
 
 
