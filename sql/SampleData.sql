@@ -13,8 +13,14 @@ values ('whois',false,'Qino','Sanchez','qwer','aaa@eee.com');
 --drop table work_table;
 
 select * from work_table;
-select * from reimbursements;
+select * from reimb_manager;
 select * from reimb_employee;
+
+select reimb_employee.reimb_id, reimb_manager.reimb_status, 
+	reimb_manager.reimb_balance, reimb_manager.work_mgr_id_fk, 
+	reimb_employee.work_emp_id_fk
+	from reimb_employee inner join reimb_manager 
+	on reimb_employee.reimb_id = reimb_manager.reimb_id_fk;
 
 insert into reimb_manager(reimb_id_fk,reimb_status,
 			reimb_balance,work_mgr_id_fk,mgr_fk)

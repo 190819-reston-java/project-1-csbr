@@ -79,6 +79,30 @@ public class ReimbTableDAO {
 		}
 	}
 	
+	public static ReimbReq getReimbRequest(){
+		final String sql = "SELECT reimb_employee.reimb_id, reimb_manager.reimb_status, " + 
+				"reimb_manager.reimb_balance, reimb_manager.work_mgr_id_fk, " +
+				"reimb_employee.work_emp_id_fk " +
+				"FROM reimb_employee INNER JOIN reimb_manager " +
+				"ON reimb_employee.reimb_id = reimb_manager.reimb_id_fk;";
+		ReimbReq reimb = null;
+		
+		try (Connection conn = ConnectorUtil.getConnection()) {
+			try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+				if (stmt.execute()) {
+					try (ResultSet rs = stmt.executeQuery()) {
+						while (rs.next()) {
+							reimb = ReimbReqInstance(rs);
+						}
+					}
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return reimb;
+	}
+	
 	public static ArrayList<OrgMember> getOrgMembers(boolean type) {
 		ArrayList<OrgMember> list = new ArrayList<OrgMember>();
 		String sql = "";
@@ -139,7 +163,13 @@ public class ReimbTableDAO {
 		return orgm;
 	}
 	
-	
+	private static ReimbReq ReimbReqInstance(ResultSet rs) throws SQLException {
+		return new ReimbReq(rs.getString("reimb_employee.reimb_id"),
+							rs.getString("reimb_manager.reimb_status"),
+							rs.getDouble("reimb_manager.reimb_balance"),
+							rs.getString("reimb_manager.work_mgr_id_fk"),
+							rs.getString("reimb_employee.work_emp_id_fk"));
+	}
 	
 	private static OrgMember OrgMemInstance(ResultSet rs) throws SQLException {
 		return new OrgMember(rs.getString("username"), 

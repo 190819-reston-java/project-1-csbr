@@ -20,7 +20,8 @@ public class ReimbReq {
 		filePaths = new ArrayList<String>();
 	}
 	
-	public ReimbReq(String status, double balance, String origIssuer, String resolver) {
+	public ReimbReq(String status, double balance, 
+			String origIssuer, String resolver) {
 
 		this.status = status;
 		this.balance = balance;
@@ -28,6 +29,18 @@ public class ReimbReq {
 		this.resolver = resolver;
 		filePaths = new ArrayList<String>();
 		this.id = generateID();
+	}
+	
+	public ReimbReq(String id, String status, 
+			double balance, String origIssuer, 
+			String resolver) {
+
+		this.status = status;
+		this.balance = balance;
+		this.origIssuer = origIssuer;
+		this.resolver = resolver;
+		filePaths = new ArrayList<String>();
+		this.id = id;
 	}
 	
 	public String getStatus() {
@@ -39,7 +52,7 @@ public class ReimbReq {
 			status.equalsIgnoreCase("accepted"))
 			this.status = status;
 		else
-			this.status = "#ERROR";
+			this.status = "#UNKNOWN";
 	}
 	public double getBalance() {
 		return balance;
