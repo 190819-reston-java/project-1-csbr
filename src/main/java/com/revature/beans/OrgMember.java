@@ -157,8 +157,9 @@ public class OrgMember {
 
 	@Override
 	public String toString() {
-		return "OrgMember [name=" + name + ", TYPE=" + Arrays.toString(TYPE) + ", typeOfMem=" + typeOfMem
-				+ ", password=" + password + ", email=" + email + "]";
+		return "OrgMember [username=" + username + ", name=" + 
+				name + ", typeOfMem=" + typeOfMem
+				+ ", password=" + password + ", email=" + email + "]\n";
 	}
 	
 	

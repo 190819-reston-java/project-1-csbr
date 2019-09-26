@@ -81,7 +81,8 @@ public class ReimbReq {
 		filePaths.add(filePath);
 	}
 	private String generateID() {
-		String idBasis = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+		String idBasis = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" + 
+				"abcdefghijklmnopqrstuvwxyz0123456789";
 		StringBuilder idTok = new StringBuilder();
 		Random obj = new Random();
 		
@@ -96,8 +97,9 @@ public class ReimbReq {
 
 	@Override
 	public String toString() {
-		return "ReimbReq [id=" + id + ", status=" + status + ", balance=" + balance + ", origIssuer=" + origIssuer
-				+ ", resolver=" + resolver + ", filePaths=" + filePaths + "]";
+		return "ReimbReq [id=" + id + ", status=" + status + 
+				", balance=" + balance + ", origIssuer=" + origIssuer
+				+ ", resolver=" + resolver + ", filePaths=" + filePaths + "]\n";
 	}
 	
 	

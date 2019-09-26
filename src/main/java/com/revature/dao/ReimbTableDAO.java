@@ -14,44 +14,60 @@ import com.revature.services.ConnectorUtil;
 
 public class ReimbTableDAO {
 	
-	public static void addNewReimbRequest(ReimbReq req, 
-			OrgMember emp, int position) {
+	public static void addNewReimbRequest(ReimbReq req) {
 		Connection conn = null;
-		PreparedStatement[] stmt = {null,null};
+		PreparedStatement stmt = null;
 		
-		final String[] sql = {"INSERT INTO reimb_employee" + 
-				"(reimb_id,work_emp_id_fk,emp_fk,reciept_img_path) " + 
-				"VALUES(?,?,?,?);",
+		final String sql = 
 				"INSERT INTO reimb_manager" + 
-				"(reimb_id_fk,reimb_status,reimb_balance,work_mgr_id_fk,mgr_fk) " +
-				"VALUES(?,?,?,?,?)"};
-		
+				"(reimb_id,reimb_status,reimb_balance,work_mgr_id_fk,mgr_fk) " +
+				"VALUES(?,?,?,?,?);";
 		try {
 			
 			conn = ConnectorUtil.getConnection();
-			stmt[0] = conn.prepareStatement(sql[0]);
+			
+			stmt = conn.prepareStatement(sql);
+			
+			stmt.setString(1, req.getID());
+			stmt.setString(2, "PENDING");
+			stmt.setDouble(3, req.getBalance());
+			stmt.setString(4, req.getResolver());
+			stmt.setBoolean(5, false);
+			stmt.execute();
 			
 			
-			stmt[0].setString(1, req.getID());
-			stmt[0].setString(2, emp.getUsername());
-			stmt[0].setBoolean(3, emp.isDetermine());
-			// links to ReimbReq's arrayList, hence the position variable.
-			stmt[0].setString(4, req.getFilePath(position));
-			
-			stmt[1] = conn.prepareStatement(sql[1]);
-			
-			stmt[1].setString(1, req.getID());
-			stmt[1].setString(2, "PENDING");
-			stmt[1].setDouble(3, req.getBalance());
-			stmt[1].setString(4, "Unknown");
-			stmt[1].setBoolean(5, false);
 			
 		} catch (SQLException f) {
 			f.printStackTrace();
 		} finally {
 			StreamCloser.close(conn);
-			StreamCloser.close(stmt[0]);
-			StreamCloser.close(stmt[1]);
+			StreamCloser.close(stmt);
+		}
+	}
+	
+	public static void addNewReimbData(OrgMember emp,
+			ReimbReq req) {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		final String sql = "INSERT INTO reimb_employee" + 
+				"(reimb_id_fk,work_emp_id_fk,emp_fk,reciept_img_path) " + 
+				"VALUES(?,?,?,?);";
+		try {
+			conn = ConnectorUtil.getConnection();
+			stmt = conn.prepareStatement(sql);
+			
+			
+			stmt.setString(1, req.getID());
+			stmt.setString(2, emp.getUsername());
+			stmt.setBoolean(3, true);
+			// links to ReimbReq's arrayList, hence the position variable.
+			stmt.setString(4, req.getFilePath(0));
+			stmt.execute();
+		} catch (SQLException w) {
+			w.printStackTrace();
+		} finally {
+			StreamCloser.close(conn);
+			StreamCloser.close(stmt);
 		}
 	}
 	
@@ -70,6 +86,7 @@ public class ReimbTableDAO {
 			stmt.setString(1, req.getStatus());
 			stmt.setString(2, mgr.getUsername());
 			stmt.setString(3, req.getID());
+			stmt.executeQuery();
 			
 		} catch (SQLException f) {
 			f.printStackTrace();
