@@ -2,7 +2,7 @@ CREATE DATABASE ReimbursementProgram;
 
 CREATE TABLE work_table (
 
-	work_usr_id VARCHAR(20), -- Worker's username
+	work_usr_id VARCHAR(20) PRIMARY KEY, -- Worker's username
 	emp_or_mgr BOOLEAN, -- Employee: True, Manager: False
 	first_name VARCHAR(20) NOT NULL,
 	last_name VARCHAR(20) NOT NULL,
@@ -10,8 +10,8 @@ CREATE TABLE work_table (
 	acc_email VARCHAR(40) NOT NULL,
 	address VARCHAR(50) NULL,
 	city VARCHAR(20) NULL,
-	country VARCHAR(50) NULL,
-	PRIMARY KEY (work_usr_id, emp_or_mgr)
+	country VARCHAR(50) NULL
+	
 );
 
 CREATE TABLE reimb_table (
