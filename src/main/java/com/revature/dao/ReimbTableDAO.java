@@ -79,16 +79,18 @@ public class ReimbTableDAO {
 		}
 	}
 	
-	public static ReimbReq getReimbRequest(){
-		final String sql = "SELECT reimb_employee.reimb_id, reimb_manager.reimb_status, " + 
+	public static ReimbReq getReimbRequest(String username){
+		final String sql = "SELECT reimb_manager.reimb_id, reimb_manager.reimb_status, " + 
 				"reimb_manager.reimb_balance, reimb_manager.work_mgr_id_fk, " +
 				"reimb_employee.work_emp_id_fk " +
 				"FROM reimb_employee INNER JOIN reimb_manager " +
-				"ON reimb_employee.reimb_id = reimb_manager.reimb_id_fk;";
+				"ON reimb_employee.reimb_id_fk = reimb_manager.reimb_id " +
+				"WHERE reimb_employee.work_emp_id_fk = ?";
 		ReimbReq reimb = null;
 		
 		try (Connection conn = ConnectorUtil.getConnection()) {
 			try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+				stmt.setString(1, username);
 				if (stmt.execute()) {
 					try (ResultSet rs = stmt.executeQuery()) {
 						while (rs.next()) {
@@ -101,6 +103,29 @@ public class ReimbTableDAO {
 			e.printStackTrace();
 		}
 		return reimb;
+	}
+	
+	public static void getRecieptFilePaths(String username, 
+			ReimbReq request){
+		final String sql = "SELECT reciept_img_path " +
+				"FROM reimb_employee " +
+				"WHERE work_emp_id_fk = ?";
+		
+		try (Connection conn = ConnectorUtil.getConnection()) {
+			try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+				stmt.setString(1, username);
+				if (stmt.execute()) {
+					try (ResultSet rs = stmt.executeQuery()) {
+						while (rs.next()) {
+							request.setFilePath(
+									rs.getString("reciept_img_path"));
+						}
+					}
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public static ArrayList<OrgMember> getOrgMembers(boolean type) {
@@ -140,12 +165,13 @@ public class ReimbTableDAO {
 			if (type) {
 				sql = "SELECT work_id, first_name, " + 
 						"last_name, employee_or_manager, acc_password, " + 
-						"acc_email FROM work_table;";
+						"acc_email FROM work_table WHERE work_id = ?;";
 				}
 			else {
 				sql = "SELECT * FROM work_table;";
 			}
 			try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+				stmt.setString(1, username);
 				if (stmt.execute()) {
 					try (ResultSet rs = stmt.executeQuery()) {
 						while (rs.next()) {
@@ -164,15 +190,15 @@ public class ReimbTableDAO {
 	}
 	
 	private static ReimbReq ReimbReqInstance(ResultSet rs) throws SQLException {
-		return new ReimbReq(rs.getString("reimb_employee.reimb_id"),
-							rs.getString("reimb_manager.reimb_status"),
-							rs.getDouble("reimb_manager.reimb_balance"),
-							rs.getString("reimb_manager.work_mgr_id_fk"),
-							rs.getString("reimb_employee.work_emp_id_fk"));
+		return new ReimbReq(rs.getString("reimb_id"),
+							rs.getString("reimb_status"),
+							rs.getDouble("reimb_balance"),
+							rs.getString("work_emp_id_fk"),
+							rs.getString("work_mgr_id_fk"));
 	}
 	
 	private static OrgMember OrgMemInstance(ResultSet rs) throws SQLException {
-		return new OrgMember(rs.getString("username"), 
+		return new OrgMember(rs.getString("work_id"), 
 				(rs.getString("first_name") + " " + rs.getString("last_name")),
 				rs.getBoolean("employee_or_manager"),
 				rs.getString("acc_password"),
@@ -180,7 +206,7 @@ public class ReimbTableDAO {
 	}
 	
 	private static OrgMember OrgMemCompleteInst(ResultSet rs) throws SQLException {
-		return new OrgMember(rs.getString("username"), 
+		return new OrgMember(rs.getString("work_id"), 
 				(rs.getString("first_name") + " " + rs.getString("last_name")),
 				rs.getBoolean("employee_or_manager"),
 				rs.getString("acc_password"),

@@ -30,7 +30,7 @@ CREATE TABLE work_table (
 
 CREATE TABLE reimb_manager (
 
-	reimb_id_fk varchar(8) NOT NULL,
+	reimb_id varchar(8) primary key,
 	reimb_status varchar(10) not null,
 	reimb_balance NUMERIC CHECK(reimb_balance >= 0.0),
 	work_mgr_id_fk VARCHAR(15) NULL,
@@ -38,18 +38,18 @@ CREATE TABLE reimb_manager (
 
 	FOREIGN KEY (work_mgr_id_fk, mgr_fk) REFERENCES 
 	work_table(work_id, employee_or_manager),
-	FOREIGN KEY (reimb_id_fk) REFERENCES reimb_employee(reimb_id)
 	
 );
 
 CREATE TABLE reimb_employee (
 
-	reimb_id varchar(8) PRIMARY KEY,
+	reimb_id_fk varchar(8) not Null,
 	work_emp_id_fk VARCHAR(15) NOT NULL,
 	emp_fk BOOLEAN CHECK(emp_fk = true),
 	reciept_img_path VARCHAR(100) NOT NULL,
 	FOREIGN KEY (work_emp_id_fk, emp_fk) REFERENCES 
 	work_table(work_id, employee_or_manager)
+	FOREIGN KEY (reimb_id_fk) REFERENCES reimb_manager(reimb_id)
 
 );
 

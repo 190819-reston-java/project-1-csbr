@@ -1,6 +1,7 @@
 package com.revature.beans;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class ReimbReq {
 
@@ -80,11 +81,26 @@ public class ReimbReq {
 		filePaths.add(filePath);
 	}
 	private String generateID() {
-		return Double.toString(Math.random() * 5);
+		String idBasis = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+		StringBuilder idTok = new StringBuilder();
+		Random obj = new Random();
+		
+		for (int i = 0; i < 8; ++i)
+			idTok.append(idBasis.charAt(obj.nextInt(idBasis.length())));
+		
+		return idTok.toString();
 	}
 	public String getID() {
 		return id;
 	}
+
+	@Override
+	public String toString() {
+		return "ReimbReq [id=" + id + ", status=" + status + ", balance=" + balance + ", origIssuer=" + origIssuer
+				+ ", resolver=" + resolver + ", filePaths=" + filePaths + "]";
+	}
+	
+	
 	
 	
 	
