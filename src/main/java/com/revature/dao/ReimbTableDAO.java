@@ -49,7 +49,7 @@ public class ReimbTableDAO {
 	public static void addNewReimbReciept(ReimbReq req) {
 		Connection conn = null;
 		PreparedStatement stmt = null;
-		final String sql = "INSERT INTO reimb_reciepts" + 
+		final String sql = "INSERT INTO reimb_reciepts_table" + 
 				"(reimb_id_fk,reciept_img_path) " + 
 				"VALUES(?,?);";
 		try {
@@ -74,7 +74,7 @@ public class ReimbTableDAO {
 		PreparedStatement stmt = null;
 		
 		final String sql = "UPDATE reimb_table SET reimb_status = ?, " +
-				"mgr_usr_id_fk = ? WHERE reimb_id = ?";
+				"WHERE reimb_id = ? AND mgr_usr_id_fk = ?;";
 		
 		try {
 			
@@ -82,8 +82,8 @@ public class ReimbTableDAO {
 			stmt = conn.prepareStatement(sql);
 			
 			stmt.setString(1, req.getStatus());
-			stmt.setString(2, mgr.getUsername());
-			stmt.setString(3, req.getID());
+			stmt.setString(2, req.getID());
+			stmt.setString(3, mgr.getUsername());
 			stmt.executeQuery();
 			
 		} catch (SQLException f) {
@@ -97,14 +97,6 @@ public class ReimbTableDAO {
 	public static ReimbReq getReimbRequest(String username){
 		final String sql = "SELECT * FROM reimb_table " +
 				"WHERE emp_usr_id_fk = ?";
-		/*
-		 * final String sql = "SELECT reimb_table.reimb_id, reimb_table.reimb_status, " + 
-				"reimb_table.reimb_balance, reimb_table.mgr_usr_id_fk, " +
-				"reimb_table.emp_usr_id_fk, reimb_reciepts.reciept_img_path" +
-				"FROM reimb_table INNER JOIN reimb_reciepts " +
-				"ON reimb_reciepts.reimb_id_fk = reimb_table.reimb_id " +
-				"WHERE reimb_table.emp_usr_id_fk = ?";
-		*/
 		
 		ReimbReq reimb = null;
 		
@@ -127,9 +119,9 @@ public class ReimbTableDAO {
 	
 	public static void getRecieptFilePaths(String username, 
 			ReimbReq request){
-		final String sql = "SELECT reimb_reciepts.reciept_img_path " +
-				"FROM reimb_reciepts INNER JOIN reimb_table " +
-				"ON reimb_table.reimb_id = reimb_reciepts.reimb_id_fk " +
+		final String sql = "SELECT reimb_reciepts_table.reciept_img_path " +
+				"FROM reimb_reciepts_table INNER JOIN reimb_table " +
+				"ON reimb_table.reimb_id = reimb_reciepts_table.reimb_id_fk " +
 				"WHERE reimb_table.emp_usr_id_fk = ?;";
 		
 		try (Connection conn = ConnectorUtil.getConnection()) {
@@ -155,7 +147,7 @@ public class ReimbTableDAO {
 		try (Connection conn = ConnectorUtil.getConnection()) {
 			if (type) {
 				sql = "SELECT usr_id, first_name, " + 
-						"last_name, emp_or_mgr, password, " + 
+						"last_name, manager, password, " + 
 						"email FROM employees_table;";
 				}
 			else {
@@ -185,7 +177,7 @@ public class ReimbTableDAO {
 		try (Connection conn = ConnectorUtil.getConnection()) {
 			if (type) {
 				sql = "SELECT usr_id, first_name, " + 
-						"last_name, emp_or_mgr, password, " + 
+						"last_name, manager, password, " + 
 						"email FROM employees_table WHERE usr_id = ?;";
 				}
 			else {
@@ -221,7 +213,7 @@ public class ReimbTableDAO {
 	private static OrgMember OrgMemInstance(ResultSet rs) throws SQLException {
 		return new OrgMember(rs.getString("usr_id"), 
 				(rs.getString("first_name") + " " + rs.getString("last_name")),
-				rs.getBoolean("emp_or_mgr"),
+				rs.getBoolean("manager"),
 				rs.getString("password"),
 				rs.getString("email"));
 	}
@@ -229,7 +221,7 @@ public class ReimbTableDAO {
 	private static OrgMember OrgMemCompleteInst(ResultSet rs) throws SQLException {
 		return new OrgMember(rs.getString("usr_id"), 
 				(rs.getString("first_name") + " " + rs.getString("last_name")),
-				rs.getBoolean("emp_or_mgr"),
+				rs.getBoolean("manager"),
 				rs.getString("password"),
 				rs.getString("email"), 
 				rs.getString("address"),
