@@ -6,10 +6,10 @@
 
 -- Drop tables generally should be in reverse creation order (assuming it was made it the right order)
 
-DROP TABLE reimb_reciepts;
-DROP TABLE reimb_table;
-DROP FUNCTION is_manager(usr_id_loc varchar);
-DROP TABLE employees_table;
+--DROP TABLE reimb_reciepts;
+--DROP TABLE reimb_table;
+--DROP FUNCTION is_manager(usr_id_loc varchar);
+--DROP TABLE employees_table;
 
 
 --CREATE DATABASE ReimbursementProgram;
