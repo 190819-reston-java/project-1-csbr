@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DCsBr Expense Reimbursement System (ERS): upload a file</title>
+</head>
+<body>
+    <div id="_"><p>Enter your reimbursement requests here</p></div>
+ <!-- TODO: remove the field at the top of the page without ruining things... -->
+    <fieldset id = "fields" >
+        <input type="file" name="receipt01image" accept="image/gif, image/jpg, image/jpeg, image/png" />
+        <p>Input amount of this receipt</p>
+        <input type="number" name="receipt01amount" step=".01" pattern="^\d*(\.\d{0,2})?$" min="0" /> <br />
+        <input type="button" id="subtract" name="cleardelete" value="-1">delete/clear this</input><br />
+        <input type="button" id="add" name="addAnother" value="+1">add another</input><br />
+        <br />
+        <input type="button" name="submit" value="*">submit these</input><br />
+    </fieldset>
+
+    <!-- or -->
+    <script type="text/javascript" src="add_receipt.js"></script>  
+
+</body>
+</html>

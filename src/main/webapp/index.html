@@ -3,17 +3,21 @@
 <head>
   <link rel="icon" type="image/x-icon" href="favicon.ico" />
 	<!-- <link rel="stylesheet" href="form.css"> -->
-  <title>CsBr Expense Reimbursement System (ERS)</title>
+  <title>CsBr Expense Reimbursement System (ERS): login</title>
   
 </head>
 <body>
- <form action="/action_page.php">
+  <!-- TODO: action_page -->
+ <form action="/action_page.php" method="POST">
+  <h2>Welcome to CsBr Expense Reimbursement System (ERS)</h2>
   <fieldset>
     <legend>CsBr Expense Reimbursement System (ERS):</legend>
-    Username:<br>
-    <input type="text" name="username"><br>
-    Password:<br>
-    <input type="password" name="password"><br><br>
+    Username:<br />
+    <input type="text" name="username"><br />
+    Password:<br />
+    <input type="password" name="password"><br />
+    <input type="checkbox" name="manager" value="yes">Log in as manager<br />
+    <br />
     <input type="submit" value="Submit">
   </fieldset>
 </form> 
