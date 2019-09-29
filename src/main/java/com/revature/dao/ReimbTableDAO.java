@@ -202,31 +202,28 @@ public class ReimbTableDAO {
 		return orgm;
 	}
 	
-	private static ReimbReq ReimbReqInstance(ResultSet rs) throws SQLException {
+	private static ReimbReq ReimbReqInstance(ResultSet rs) 
+			throws SQLException {
 		return new ReimbReq(rs.getString("reimb_id"),
-							rs.getString("reimb_status"),
-							rs.getDouble("reimb_balance"),
-							rs.getString("emp_user_id_fk"),
-							rs.getString("mgr_user_id_fk"));
+			rs.getString("reimb_status"), rs.getDouble("reimb_balance"),
+			rs.getString("emp_user_id_fk"), rs.getString("mgr_user_id_fk"));
 	}
 	
-	private static OrgMember OrgMemInstance(ResultSet rs) throws SQLException {
+	private static OrgMember OrgMemInstance(ResultSet rs) 
+			throws SQLException {
 		return new OrgMember(rs.getString("user_id"), 
 				(rs.getString("first_name") + " " + rs.getString("last_name")),
-				rs.getBoolean("manager"),
-				rs.getString("passwd"),
+				rs.getBoolean("manager"), rs.getString("passwd"), 
 				rs.getString("email"));
 	}
 	
-	private static OrgMember OrgMemCompleteInst(ResultSet rs) throws SQLException {
+	private static OrgMember OrgMemCompleteInst(ResultSet rs) 
+			throws SQLException {
 		return new OrgMember(rs.getString("user_id"), 
 				(rs.getString("first_name") + " " + rs.getString("last_name")),
-				rs.getBoolean("manager"),
-				rs.getString("passwd"),
-				rs.getString("email"), 
-				rs.getString("address"),
-				rs.getString("city"), 
-				rs.getString("country"));
+				rs.getBoolean("manager"), rs.getString("passwd"),
+				rs.getString("email"), rs.getString("address"),
+				rs.getString("city"), rs.getString("country"));
 	}
 	
 }

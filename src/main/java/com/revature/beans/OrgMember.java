@@ -4,7 +4,7 @@ public class OrgMember {
 	
 	private String username;
 	private String name;
-	private String[] TYPE = {"Employee","Manager"};
+	private final static String[] TYPE = {"Employee","Manager"};
 	private String typeOfMem;
 	private boolean determine;
 	private String password;
@@ -59,8 +59,8 @@ public class OrgMember {
 		setTypeOfMem(determine);
 	}
 	
-	public String getTypeOfMem(boolean determine) {
-		return determine ? TYPE[1] : TYPE[0];
+	public String getTypeOfMem() {
+		return this.determine ? TYPE[1] : TYPE[0];
 	}
 	
 	public void setTypeOfMem(boolean determine) {
