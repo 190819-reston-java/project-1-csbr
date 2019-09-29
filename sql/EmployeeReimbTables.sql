@@ -6,13 +6,13 @@
 
 -- Drop tables generally should be in reverse creation order (assuming it was made it the right order)
 
---DROP TABLE reimb_reciepts_table;
+--DROP TABLE reimb_reciepts;
 --DROP TABLE reimb_table;
---DROP FUNCTION is_manager;
+--DROP FUNCTION is_manager(usr_id_loc varchar);
 --DROP TABLE employees_table;
 
 
-CREATE DATABASE ReimbursementProgram;
+--CREATE DATABASE ReimbursementProgram;
 
 
 CREATE table employees_table (
@@ -36,8 +36,13 @@ $$
         SELECT manager FROM employees_table WHERE user_id = user_id_loc;
 $$ LANGUAGE SQL;
 
--- possible statuses: not-submitted, submitted-pending, submitted-approved-not-reimbursed, submitted-approved-reimbursed, submitted-not-approved
--- one of: not_submitted(13), submitted(9), pending(7), approved(8), unapproved(10), reimbursed(10), withdrawn(9)(user decides to cancel submission)
+-- possible statuses: not-submitted, submitted-pending, 
+-- 		submitted-approved-not-reimbursed, 
+--		submitted-approved-reimbursed, submitted-not-approved
+-- one of: not_submitted(13), 
+--		submitted(9), pending(7), approved(8), 
+--		unapproved(10), reimbursed(10), 
+--		withdrawn(9) (if user decides to cancel submission)
 -- longest one is 13 characters
 -- ideas for others?
 -- separate into separate booleans or combine like this?
