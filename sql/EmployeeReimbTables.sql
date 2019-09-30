@@ -43,27 +43,33 @@ $$ LANGUAGE SQL;
 --		submitted(9), pending(7), approved(8), 
 --		unapproved(10), reimbursed(10), denied(6)
 --		withdrawn(9) (if user decides to cancel submission)
+-- submitted can be pending, all pending has been submitted
 -- longest one is 13 characters
 -- ideas for others, or these renamed?
 -- separate into separate booleans or combine like this?
+-- TODO: Put these down as a constraint for this column
 
  -- for round when third number is '0' for round, and not '0' for turncate
  
+-- CHECK(is_manager(mgr_user_id_fk) = false) -- removed this constraint, a manager can do this as an employeee
+-- However a manager can not self aprove their own stuff 
+
+-- TODO: set reimb_id as SERIAL, I remember Carlos saying no to this idea...
+
 CREATE TABLE reimb_table (
 
         reimb_id VARCHAR(8) PRIMARY KEY,
-        reimb_status VARCHAR(13) NOT NULL,
+        reimb_status VARCHAR(13) NOT NULL CHECK(reimb_status IN ('NOTSUBMITTED','PENDING', 'APPROVED', 'DENIED')),
         reimb_balance NUMERIC(8,2) CHECK(reimb_balance >= 0.0),
-        mgr_user_id_fk VARCHAR(31) NOT NULL CHECK(is_manager(mgr_user_id_fk) = true),
-        emp_user_id_fk VARCHAR(31) NOT NULL CHECK(is_manager(emp_user_id_fk) = false),
+        mgr_user_id_fk VARCHAR(31) CHECK(mgr_user_id_fk IS NULL OR is_manager(mgr_user_id_fk) = TRUE ),
+        emp_user_id_fk VARCHAR(31) NOT NULL,
         
         submited_time TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-        proval_time TIMESTAMP WITH TIME ZONE DEFAULT NULL,
+        proval_time   TIMESTAMP WITH TIME ZONE DEFAULT NULL,
 
-        FOREIGN KEY (emp_user_id_fk) REFERENCES 
-        employees_table(user_id),
-        FOREIGN KEY (mgr_user_id_fk) REFERENCES 
-        employees_table(user_id)
+        FOREIGN KEY(emp_user_id_fk) REFERENCES employees_table(user_id),
+        FOREIGN KEY(mgr_user_id_fk) REFERENCES employees_table(user_id),
+        CHECK (mgr_user_id_fk <> emp_user_id_fk)
 
 );
 
@@ -78,4 +84,8 @@ CREATE TABLE reimb_reciepts_table (
         FOREIGN KEY (reimb_id_fk) REFERENCES reimb_table(reimb_id)
 
 );
+
+--SELECT * FROM reimb_reciepts_table;
+--SELECT * FROM reimb_table;
+--SELECT * FROM employees_table;
 
