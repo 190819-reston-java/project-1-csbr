@@ -6,10 +6,10 @@
 
 -- Drop tables generally should be in reverse creation order (assuming it was made it the right order)
 
--- DROP TABLE reimb_reciepts_table;
--- DROP TABLE reimb_table;
--- DROP FUNCTION is_manager(usr_id_loc varchar);
--- DROP TABLE employees_table;
+ DROP TABLE reimb_reciepts_table;
+ DROP TABLE reimb_table;
+ DROP FUNCTION is_manager(usr_id_loc varchar);
+ DROP TABLE employees_table;
 
 
 --CREATE DATABASE ReimbursementProgram;
@@ -47,17 +47,18 @@ $$ LANGUAGE SQL;
 -- ideas for others, or these renamed?
 -- separate into separate booleans or combine like this?
 
-
+ -- for round when third number is '0' for round, and not '0' for turncate
+ 
 CREATE TABLE reimb_table (
 
         reimb_id VARCHAR(8) PRIMARY KEY,
         reimb_status VARCHAR(13) NOT NULL,
-        reimb_balance NUMERIC(8,2) CHECK(reimb_balance >= 0.0) -- for round when third number is '0' for round not '0' for turncate
+        reimb_balance NUMERIC(8,2) CHECK(reimb_balance >= 0.0),
         mgr_user_id_fk VARCHAR(31) NOT NULL CHECK(is_manager(mgr_user_id_fk) = true),
         emp_user_id_fk VARCHAR(31) NOT NULL CHECK(is_manager(emp_user_id_fk) = false),
         
         submited_time TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-        proval_time TIMESTAMP WITH TIME ZONE DEFAULT NULL;
+        proval_time TIMESTAMP WITH TIME ZONE DEFAULT NULL,
 
         FOREIGN KEY (emp_user_id_fk) REFERENCES 
         employees_table(user_id),
