@@ -13,8 +13,9 @@ import com.revature.beans.ReimbReq;
 import com.revature.services.ConnectorUtil;
 
 public class ReimbTableDAO {
+	
 
-	public static void addNewReimbRequest(ReimbReq req) {
+	public  void addNewReimbRequest(ReimbReq req) {
 		Connection conn = null;
 		PreparedStatement stmt = null;
 
@@ -41,7 +42,7 @@ public class ReimbTableDAO {
 		}
 	}
 
-	public static void addNewReimbReciept(ReimbReq req) {
+	public  void addNewReimbReciept(ReimbReq req) {
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		final String sql = "INSERT INTO reimb_reciepts_table" + "(reimb_id_fk,reciept_img_path) " + "VALUES(?,?);";
@@ -61,7 +62,7 @@ public class ReimbTableDAO {
 		}
 	}
 
-	public static void updateReimbRequest(ReimbReq req, OrgMember mgr) {
+	public  void updateReimbRequest(ReimbReq req, OrgMember mgr) {
 		Connection conn = null;
 		PreparedStatement stmt = null;
 
@@ -85,7 +86,7 @@ public class ReimbTableDAO {
 		}
 	}
 
-	public static ReimbReq getReimbRequest(String username) {
+	public  ReimbReq getReimbRequest(String username) {
 		final String sql = "SELECT * FROM reimb_table " + "WHERE emp_user_id_fk = ?";
 
 		ReimbReq reimb = null;
@@ -107,7 +108,7 @@ public class ReimbTableDAO {
 		return reimb;
 	}
 
-	public static void getRecieptFilePaths(String username, ReimbReq request) {
+	public  void getRecieptFilePaths(String username, ReimbReq request) {
 		final String sql = "SELECT reimb_reciepts_table.reciept_img_path "
 				+ "FROM reimb_reciepts_table INNER JOIN reimb_table "
 				+ "ON reimb_table.reimb_id = reimb_reciepts_table.reimb_id_fk "
@@ -129,7 +130,7 @@ public class ReimbTableDAO {
 		}
 	}
 
-	public static ArrayList<OrgMember> getOrgMembers(boolean type) {
+	public  ArrayList<OrgMember> getOrgMembers(boolean type) {
 		ArrayList<OrgMember> list = new ArrayList<>();
 		String sql = "";
 		try (Connection conn = ConnectorUtil.getConnection()) {
@@ -158,7 +159,7 @@ public class ReimbTableDAO {
 		return list;
 	}
 
-	public static OrgMember getOrgMember(String username, boolean type) {
+	public  OrgMember getOrgMember(String username, boolean type) {
 		String sql = "";
 		OrgMember orgm = null;
 		try (Connection conn = ConnectorUtil.getConnection()) {
@@ -188,17 +189,17 @@ public class ReimbTableDAO {
 		return orgm;
 	}
 
-	private static ReimbReq ReimbReqInstance(ResultSet rs) throws SQLException {
+	private  ReimbReq ReimbReqInstance(ResultSet rs) throws SQLException {
 		return new ReimbReq(rs.getString("reimb_id"), rs.getString("reimb_status"), rs.getDouble("reimb_balance"),
 				rs.getString("emp_user_id_fk"), rs.getString("mgr_user_id_fk"));
 	}
 
-	private static OrgMember OrgMemInstance(ResultSet rs) throws SQLException {
+	private  OrgMember OrgMemInstance(ResultSet rs) throws SQLException {
 		return new OrgMember(rs.getString("user_id"), (rs.getString("first_name") + " " + rs.getString("last_name")),
 				rs.getBoolean("manager"), rs.getString("passwd"), rs.getString("email"));
 	}
 
-	private static OrgMember OrgMemCompleteInst(ResultSet rs) throws SQLException {
+	private  OrgMember OrgMemCompleteInst(ResultSet rs) throws SQLException {
 		return new OrgMember(rs.getString("user_id"), (rs.getString("first_name") + " " + rs.getString("last_name")),
 				rs.getBoolean("manager"), rs.getString("passwd"), rs.getString("email"), rs.getString("address"),
 				rs.getString("city"), rs.getString("country"));

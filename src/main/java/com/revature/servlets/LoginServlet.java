@@ -2,6 +2,7 @@ package com.revature.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -25,35 +26,40 @@ public class LoginServlet extends HttpServlet {
 	}
 	
 	@Override
-	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	protected void service(HttpServletRequest req, HttpServletResponse resp) 
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//HttpSession session = req.getSession();
+		
+		ReimbTableDAO inst = new ReimbTableDAO();
+		
 		String username = (String) req.getAttribute("username");
-		System.out.println(username);
+		System.out.println("In LoginServlet: " + username);
 		String password = (String) req.getAttribute("password");
-		Boolean isManager = (Boolean) req.getAttribute("manager");
-
-		OrgMember user = ReimbTableDAO.getOrgMember(username, true);
+		Boolean isMgr = req.getAttribute("manager") != null;
 		
-		PrintWriter pw = resp.getWriter();
-		
-		if (verifyLogin(req, resp, user, username, password, pw)) {
-			req.setAttribute("user",user);
-			if (isManager(isManager,user) == 1) {
-				req.getServletContext().getRequestDispatcher("/requests_manager.html").
-				forward(req, resp);
-			}
-			else if (isManager(isManager,user) == 0) {
-				req.getServletContext().getRequestDispatcher("/not_a_manager.html")
-				.forward(req, resp);
-			}
-			else {
-				req.getServletContext().getRequestDispatcher("/requests_employee.html")
-				.forward(req, resp);
-			}
-		} else {
+		OrgMember user = inst.getOrgMember(username, true);
+		System.out.println(user);
 			
-		}
+			PrintWriter pw = resp.getWriter();
+			
+			if (verifyLogin(req, resp, user, username, password, pw)) {
+				req.setAttribute("user",user);
+				if (isManager(isMgr,user) == 1) {
+					req.getServletContext().getRequestDispatcher("/requests_manager.html").
+					forward(req, resp);
+				}
+				else if (isManager(isMgr,user) == 0) {
+					req.getServletContext().getRequestDispatcher("/not_a_manager.html")
+					.forward(req, resp);
+				}
+				else {
+					req.getServletContext().getRequestDispatcher("/requests_employee.html")
+					.forward(req, resp);
+				}
+			} else {
+				pw.write("User doesn't exist or isn't found.");
+			}
 	}
 	
 	@Override
@@ -64,7 +70,7 @@ public class LoginServlet extends HttpServlet {
 	/**
 	 * @param req not used
 	 */
-	private static boolean verifyLogin(HttpServletRequest req, 
+	private static Boolean verifyLogin(HttpServletRequest req, 
 			HttpServletResponse resp, OrgMember user,
 			String username, String password, PrintWriter pw) throws IOException {
 		if (!user.getPassword().equals(password)) {
@@ -85,7 +91,7 @@ public class LoginServlet extends HttpServlet {
 			}
 	}
 
-	private static int isManager(boolean isMgr, OrgMember user) {
+	private static int isManager(Boolean isMgr, OrgMember user) {
 		if (isMgr) {
 			if (user.isDetermine() == true) {
 				return 1;

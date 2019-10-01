@@ -23,9 +23,14 @@ public class ConnectorUtil {
 			String username = props.getProperty("username");
 			String password = props.getProperty("password");
 			
-			//How to actually make connections with jdbc
-			conn = DriverManager.getConnection(url, username, password);
+			try {
 			
+				Class.forName("org.postgresql.Driver");
+				//How to actually make connections with jdbc
+				conn = DriverManager.getConnection(url, username, password);
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
