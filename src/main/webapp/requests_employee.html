@@ -10,18 +10,16 @@
        <!-- <select class="drop_to_show" data-target=".Reqest_List";> -->
            <!-- TODO: replace 'value' of options with with reference to get SQL code -->
         <select onchange="if(selectedIndex!=0)document.getElementById('Request_List').innerHTML=options[selectedIndex].value;">
-        <option value="">Which Requests would you like to view?</option>
+        <option>Which Requests would you like to view?</option>
         <option value="All_Requests">View All My Requests</option>
         
-        <option value="Non_Submitted">View My Resquests Not Submitted</option>
-        <option value="Submitted">View My Resquests Submitted</option>
+        <option value="Non_Submitted">View Requests Not Submitted</option>
 
-        <option value="Pending">View My Pending</option>
-        <option value="Responses">View My Resquests That Hove Responses</option>
-        <!-- <option value="Non_Responses">View My Resquests That Don't Hove Responses</option> --> <!-- same as Pending -->
+        <option value="Pending">View Pending</option>
+        <!-- <option value="Non_Responses">View My Requests That Don't Hove Responses</option> --> <!-- same as Pending -->
 
-        <option value="Approved">View My Resquests That Are Approved</option>
-        <option value="Denied">View My Resquests That Are Denied</option>
+        <option value="Approved">View Requests That Are Approved</option>
+        <option value="Denied">View Requests That Are Denied</option>
 
     </select>
 <div id="Request_List"><p>Pick an option and the request choices will appear here.</p></div>

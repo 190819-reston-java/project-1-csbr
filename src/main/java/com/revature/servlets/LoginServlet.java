@@ -28,15 +28,14 @@ public class LoginServlet extends HttpServlet {
 		OrgMember user = ReimbTableDAO.getOrgMember(username, true);
 		
 		if (loginVerify(req, resp, user, username, password) &&
-				!isManager) {
+				user.isDetermine() == isManager) {
 			session.setAttribute("user",user);
-			req.getServletContext().getRequestDispatcher("/menu.html").
+			req.getServletContext().getRequestDispatcher("/requests_employee.html").
 				forward(req, resp);
-		} else if (loginVerify(req, resp, user, username, password) &&
-				isManager) {
-			session.setAttribute("user",user);
-			req.getServletContext().getRequestDispatcher("/menuEmp.html").
-				forward(req, resp);
+		} else if (loginVerify(req, resp, user, username, password) && 
+				user.isDetermine() != isManager) {
+			req.getServletContext().getRequestDispatcher("/not_a_manager.html")
+				.forward(req, resp);
 		}
 		
 	}
