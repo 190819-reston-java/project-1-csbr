@@ -21,14 +21,17 @@ public class LoginController extends HttpServlet {
 		
 		String username = (String) req.getParameter("username");
 		String password = (String) req.getParameter("password");
-		Boolean isManager = req.getAttribute("manager") != null;
+		String obj = (String) req.getParameter("is_mgr");
 		
+		Boolean isManager = new Boolean(obj); 
+		
+		System.out.println("Pre: "+isManager);
 		
 		System.out.println(username + " " + password);
 		
 		req.setAttribute("username", username);
 		req.setAttribute("password", password);
-		req.setAttribute("manager", isManager);
+		req.setAttribute("is_mgr", isManager);
 		
 		if (!(username == null || password == null))
 			req.getRequestDispatcher("login_verify").forward(req, resp);

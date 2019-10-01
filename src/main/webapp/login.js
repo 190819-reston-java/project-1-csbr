@@ -1,5 +1,5 @@
 'use strict';
 
-let isManager = document.getElementsByName("manager");
+//let isManager = document.getElementsByName("manager");
 
-isManager = false;
+//isManager = false;

@@ -36,7 +36,9 @@ public class LoginServlet extends HttpServlet {
 		String username = (String) req.getAttribute("username");
 		System.out.println("In LoginServlet: " + username);
 		String password = (String) req.getAttribute("password");
-		Boolean isMgr = req.getAttribute("manager") != null;
+		Boolean isMgr = (Boolean) req.getAttribute("is_mgr");
+		
+		System.out.println(isMgr);
 		
 		OrgMember user = inst.getOrgMember(username, true);
 		System.out.println(user);
@@ -44,19 +46,8 @@ public class LoginServlet extends HttpServlet {
 			PrintWriter pw = resp.getWriter();
 			
 			if (verifyLogin(req, resp, user, username, password, pw)) {
-				req.setAttribute("user",user);
-				if (isManager(isMgr,user) == 1) {
-					req.getServletContext().getRequestDispatcher("/requests_manager.html").
-					forward(req, resp);
-				}
-				else if (isManager(isMgr,user) == 0) {
-					req.getServletContext().getRequestDispatcher("/not_a_manager.html")
-					.forward(req, resp);
-				}
-				else {
-					req.getServletContext().getRequestDispatcher("/requests_employee.html")
-					.forward(req, resp);
-				}
+				//req.setAttribute("user",user);
+				isManager(isMgr,user,req,resp);
 			} else {
 				pw.write("User doesn't exist or isn't found.");
 			}
@@ -72,7 +63,8 @@ public class LoginServlet extends HttpServlet {
 	 */
 	private static Boolean verifyLogin(HttpServletRequest req, 
 			HttpServletResponse resp, OrgMember user,
-			String username, String password, PrintWriter pw) throws IOException {
+			String username, String password, PrintWriter pw) 
+					throws IOException {
 		if (!user.getPassword().equals(password)) {
 				pw.write("Wrong password.");
 				return false;
@@ -91,18 +83,20 @@ public class LoginServlet extends HttpServlet {
 			}
 	}
 
-	private static int isManager(Boolean isMgr, OrgMember user) {
-		if (isMgr) {
-			if (user.isDetermine() == true) {
-				return 1;
-			}
-		} else if (!isMgr) {
-			if (user.isDetermine() == false) {
-				return 0;
-			}
-		} else {
-			return -1;
-		}
-		return -1;
+	private static void isManager(Boolean isMgr, OrgMember user,
+			HttpServletRequest req, HttpServletResponse resp) 
+			throws IOException, ServletException {
+		if (isMgr && user.isDetermine() == true) {
+			req.getServletContext().getRequestDispatcher("/requests_manager.html").
+			forward(req, resp);
+		} else if ((isMgr && user.isDetermine() == false) ||
+				(!isMgr && user.isDetermine() == true)) {
+			req.getServletContext().getRequestDispatcher("/not_a_manager.html")
+			.forward(req, resp);
+		} else if (!isMgr && user.isDetermine() == false){
+			req.getServletContext().getRequestDispatcher("/requests_employee.html")
+			.forward(req, resp);
+		} else
+			System.out.println("sorry.");
 	}
 }
