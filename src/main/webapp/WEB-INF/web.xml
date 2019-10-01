@@ -7,12 +7,25 @@
   
   <servlet>
   	<servlet-name>Login</servlet-name>
-  	<servlet-class>com.revature.hello.LoginServlet</servlet-class>
+  	<servlet-class>com.revature.servlets.LoginController</servlet-class>
+  </servlet>
+  
+  
+  <servlet>
+  	<servlet-name>LoginVerify</servlet-name>
+  	<servlet-class>com.revature.servlets.LoginServlet</servlet-class>
   </servlet>
   
   <servlet-mapping>
   	<servlet-name>Login</servlet-name>
   	<url-pattern>/login</url-pattern>
+  </servlet-mapping>
+  
+  
+  
+  <servlet-mapping>
+  	<servlet-name>LoginVerify</servlet-name>
+  	<url-pattern>/login_verify</url-pattern>
   </servlet-mapping>
   
   

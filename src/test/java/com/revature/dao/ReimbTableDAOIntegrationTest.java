@@ -32,9 +32,9 @@ public class ReimbTableDAOIntegrationTest {
 				// above is the retrieval of the record for "asdf134"
 				// below is the new ReimbReq object to pass to database.
 		new ReimbReq("PENDING",40.00,aell.getUsername(),bell.getUsername());
-		ael.setFilePath("c:/blah/eeejroe.png");
-		ReimbTableDAO.addNewReimbRequest(ael);
-		ReimbTableDAO.addNewReimbReciept(ael);
+		//ael.setFilePath("c:/blah/eeejroe.png");
+		//ReimbTableDAO.addNewReimbRequest(ael);
+		//ReimbTableDAO.addNewReimbReciept(ael);
 		
 		
 		ReimbTableDAO.getRecieptFilePaths("asdf134", ael);

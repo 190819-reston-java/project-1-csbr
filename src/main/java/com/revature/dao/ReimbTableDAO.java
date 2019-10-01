@@ -134,7 +134,9 @@ public class ReimbTableDAO {
 		String sql = "";
 		try (Connection conn = ConnectorUtil.getConnection()) {
 			if (type) {
-				sql = "SELECT user_id, first_name, " + "last_name, manager, passwd, " + "email FROM employees_table;";
+				sql = "SELECT user_id, first_name, " + 
+						"last_name, manager, passwd, " + 
+						"email FROM employees_table;";
 			} else {
 				sql = "SELECT * FROM employees_table;";
 			}
@@ -161,7 +163,8 @@ public class ReimbTableDAO {
 		OrgMember orgm = null;
 		try (Connection conn = ConnectorUtil.getConnection()) {
 			if (type) {
-				sql = "SELECT user_id, first_name, " + "last_name, manager, passwd, "
+				sql = "SELECT user_id, first_name, " + 
+						"last_name, manager, passwd, "
 						+ "email FROM employees_table WHERE user_id = ?;";
 			} else {
 				sql = "SELECT * FROM employees_table;";

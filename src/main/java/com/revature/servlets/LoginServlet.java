@@ -17,34 +17,57 @@ public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = -2133730339858743837L;
 
 	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		//HttpSession session = req.getSession();
+		doPost(req,resp);
+		
+		//doPost(req, resp);
+	}
+	
+	@Override
+	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		HttpSession session = req.getSession();
-		String username = (String) session.getAttribute("username");
-		String password = (String) session.getAttribute("password");
-		Boolean isManager = (Boolean) session.getAttribute("manager");
+		//HttpSession session = req.getSession();
+		String username = (String) req.getAttribute("username");
+		System.out.println(username);
+		String password = (String) req.getAttribute("password");
+		Boolean isManager = (Boolean) req.getAttribute("manager");
 
 		OrgMember user = ReimbTableDAO.getOrgMember(username, true);
 		
-		if (loginVerify(req, resp, user, username, password) &&
-				user.isDetermine() == isManager) {
-			session.setAttribute("user",user);
-			req.getServletContext().getRequestDispatcher("/requests_employee.html").
+		PrintWriter pw = resp.getWriter();
+		
+		if (verifyLogin(req, resp, user, username, password, pw)) {
+			req.setAttribute("user",user);
+			if (isManager(isManager,user) == 1) {
+				req.getServletContext().getRequestDispatcher("/requests_manager.html").
 				forward(req, resp);
-		} else if (loginVerify(req, resp, user, username, password) && 
-				user.isDetermine() != isManager) {
-			req.getServletContext().getRequestDispatcher("/not_a_manager.html")
+			}
+			else if (isManager(isManager,user) == 0) {
+				req.getServletContext().getRequestDispatcher("/not_a_manager.html")
 				.forward(req, resp);
+			}
+			else {
+				req.getServletContext().getRequestDispatcher("/requests_employee.html")
+				.forward(req, resp);
+			}
+		} else {
+			
 		}
 	}
-
+	
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		service(req,resp);
+	}
 	/**
 	 * @param req not used
 	 */
-	private static boolean loginVerify(HttpServletRequest req, HttpServletResponse resp, OrgMember user,
-			String username, String password) throws IOException {
-		try (PrintWriter pw = resp.getWriter()) {
-			if (!user.getPassword().equals(password)) {
+	private static boolean verifyLogin(HttpServletRequest req, 
+			HttpServletResponse resp, OrgMember user,
+			String username, String password, PrintWriter pw) throws IOException {
+		if (!user.getPassword().equals(password)) {
 				pw.write("Wrong password.");
 				return false;
 			} else if (password.isEmpty()) {
@@ -53,16 +76,27 @@ public class LoginServlet extends HttpServlet {
 			} else if (username.isEmpty()) {
 				pw.write("Username can't be blank.");
 				return false;
-			} else if (!user.getPassword().equals(password) && !user.getUsername().equals(username)) {
+			} else if (!user.getPassword().equals(password) && 
+					!user.getUsername().equals(username)) {
 				pw.write("User doesn't even exist.");
 				return false;
 			} else {
 				return true;
 			}
-		}
 	}
 
-//	private boolean isManager(Boolean isManager) {
-//		if...
-//	}
+	private static int isManager(boolean isMgr, OrgMember user) {
+		if (isMgr) {
+			if (user.isDetermine() == true) {
+				return 1;
+			}
+		} else if (!isMgr) {
+			if (user.isDetermine() == false) {
+				return 0;
+			}
+		} else {
+			return -1;
+		}
+		return -1;
+	}
 }
