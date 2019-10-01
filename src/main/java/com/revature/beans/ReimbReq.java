@@ -11,99 +11,99 @@ public class ReimbReq {
 	private String origIssuer;
 	private String resolver;
 	private ArrayList<String> filePaths;
-	
+
 	public ReimbReq() {
-		id = "";
-		status = "";
-		balance = 0.0;
-		origIssuer = "";
-		resolver = "";
-		filePaths = new ArrayList<String>();
+		this.id = "";
+		this.status = "";
+		this.balance = 0.0;
+		this.origIssuer = "";
+		this.resolver = "";
+		this.filePaths = new ArrayList<>();
 	}
-	
-	public ReimbReq(String status, double balance, 
-			String origIssuer, String resolver) {
+
+	public ReimbReq(String status, double balance, String origIssuer, String resolver) {
 
 		this.status = status;
 		this.balance = balance;
 		this.origIssuer = origIssuer;
 		this.resolver = resolver;
-		filePaths = new ArrayList<String>();
+		this.filePaths = new ArrayList<>();
 		this.id = generateID();
 	}
-	
-	public ReimbReq(String id, String status, 
-			double balance, String origIssuer, 
-			String resolver) {
+
+	public ReimbReq(String id, String status, double balance, String origIssuer, String resolver) {
 
 		this.status = status;
 		this.balance = balance;
 		this.origIssuer = origIssuer;
 		this.resolver = resolver;
-		filePaths = new ArrayList<String>();
+		this.filePaths = new ArrayList<>();
 		this.id = id;
 	}
-	
+
 	public String getStatus() {
-		return status;
+		return this.status;
 	}
+
 	public void setStatus(String status) {
-		if (status.equalsIgnoreCase("pending") ||
-			status.equalsIgnoreCase("denied") ||
-			status.equalsIgnoreCase("accepted"))
+		if (status.equalsIgnoreCase("pending") || status.equalsIgnoreCase("denied")
+				|| status.equalsIgnoreCase("accepted"))
 			this.status = status;
 		else
 			this.status = "#UNKNOWN";
 	}
+
 	public double getBalance() {
-		return balance;
+		return this.balance;
 	}
+
 	public void setBalance(double balance) {
 		this.balance = balance;
 	}
+
 	public String getOrigIssuer() {
-		return origIssuer;
+		return this.origIssuer;
 	}
+
 	public void setOrigIssuer(String origIssuer) {
 		this.origIssuer = origIssuer;
 	}
+
 	public String getResolver() {
-		return resolver;
+		return this.resolver;
 	}
+
 	public void setResolver(String resolver) {
 		this.resolver = resolver;
 	}
-	
+
 	public String getFilePath(int position) {
-		return filePaths.get(position);
+		return this.filePaths.get(position);
 	}
+
 	public void setFilePath(String filePath) {
-		filePaths.add(filePath);
+		this.filePaths.add(filePath);
 	}
-	private String generateID() {
-		String idBasis = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" + 
-				"abcdefghijklmnopqrstuvwxyz0123456789";
+
+	private static String generateID() {
+		String idBasis = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" + "abcdefghijklmnopqrstuvwxyz0123456789";
 		StringBuilder idTok = new StringBuilder();
 		Random obj = new Random();
-		
+
 		for (int i = 0; i < 8; ++i)
 			idTok.append(idBasis.charAt(obj.nextInt(idBasis.length())));
-		
+
 		return idTok.toString();
 	}
+
 	public String getID() {
-		return id;
+		return this.id;
 	}
 
 	@Override
 	public String toString() {
-		return "ReimbReq [id=" + id + ", status=" + status + 
-				", balance=" + balance + ", origIssuer=" + origIssuer
-				+ ", resolver=" + resolver + ", filePaths=" + filePaths + "]\n";
+		return "ReimbReq [id=" + this.id + ", status=" + this.status + ", balance=" + this.balance + ", origIssuer="
+				+ this.origIssuer + ", resolver=" + this.resolver + ", filePaths=" + this.filePaths + "]\n";
 	}
-	
-	
-	
-	
-	
+
 }
