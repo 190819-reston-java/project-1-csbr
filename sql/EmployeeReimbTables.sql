@@ -57,7 +57,7 @@ $$ LANGUAGE SQL;
 -- However a manager can not self aprove their own stuff 
 
 -- TODO: set reimb_id as SERIAL or something like this, I remember Carlos saying no to this idea...
-
+-- TODO: remove balance from reimb_table and add amount to reimb_reciepts_table -- adjust java code, queries, etc.. as necessary
 CREATE TABLE reimb_table (
 
         reimb_id VARCHAR(8) PRIMARY KEY,
@@ -91,3 +91,4 @@ SELECT * FROM reimb_reciepts_table;
 SELECT * FROM reimb_table;
 SELECT * FROM employees_table;
 
+--SELECT * FROM reimb_reciepts_table JOIN reimb_table ON reimb_id_fk=reimb_id;
