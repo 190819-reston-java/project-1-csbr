@@ -13,13 +13,16 @@ import com.revature.beans.ReimbReq;
 import com.revature.services.ConnectorUtil;
 
 public class ReimbTableDAO {
+	
 
-	public static void addNewReimbRequest(ReimbReq req) {
+	public  void addNewReimbRequest(ReimbReq req) {
 		Connection conn = null;
 		PreparedStatement stmt = null;
 
-		final String sql = "INSERT INTO reimb_table" + "(reimb_id,reimb_status,reimb_balance,"
-				+ "mgr_user_id_fk,emp_user_id_fk) " + "VALUES(?,?,?,?,?);";
+		final String sql = "INSERT INTO reimb_table" 
+				+ "(reimb_id,reimb_status,reimb_balance,"
+				+ "mgr_user_id_fk,emp_user_id_fk) " 
+				+ "VALUES(?,?,?,?,?);";
 		try {
 
 			conn = ConnectorUtil.getConnection();
@@ -41,10 +44,11 @@ public class ReimbTableDAO {
 		}
 	}
 
-	public static void addNewReimbReciept(ReimbReq req) {
+	public  void addNewReimbReciept(ReimbReq req) {
 		Connection conn = null;
 		PreparedStatement stmt = null;
-		final String sql = "INSERT INTO reimb_reciepts_table" + "(reimb_id_fk,reciept_img_path) " + "VALUES(?,?);";
+		final String sql = "INSERT INTO reimb_reciepts_table" 
+				+ "(reimb_id_fk,reciept_img_path) " + "VALUES(?,?);";
 		try {
 			conn = ConnectorUtil.getConnection();
 			stmt = conn.prepareStatement(sql);
@@ -61,11 +65,12 @@ public class ReimbTableDAO {
 		}
 	}
 
-	public static void updateReimbRequest(ReimbReq req, OrgMember mgr) {
+	public  void updateReimbRequest(ReimbReq req, OrgMember mgr) {
 		Connection conn = null;
 		PreparedStatement stmt = null;
 
-		final String sql = "UPDATE reimb_table SET reimb_status = ?, " + "WHERE reimb_id = ? AND mgr_user_id_fk = ?;";
+		final String sql = "UPDATE reimb_table SET reimb_status = ?, " 
+				+ "WHERE reimb_id = ? AND mgr_user_id_fk = ?;";
 
 		try {
 
@@ -85,14 +90,26 @@ public class ReimbTableDAO {
 		}
 	}
 
-	public static ReimbReq getReimbRequest(String username) {
-		final String sql = "SELECT * FROM reimb_table " + "WHERE emp_user_id_fk = ?";
+	public  ReimbReq getReimbRequest(String username, int type) {
+		
+		final String sql = "SELECT * FROM reimb_table " 
+				+ "WHERE emp_user_id_fk = ? AND reimb_status = ?";
 
+		final String[] setType = {"PENDING","APPROVED","DENIED"};
+		
 		ReimbReq reimb = null;
 
 		try (Connection conn = ConnectorUtil.getConnection()) {
 			try (PreparedStatement stmt = conn.prepareStatement(sql)) {
 				stmt.setString(1, username);
+				
+				if (type == 2)
+					stmt.setString(2, setType[2]);
+				else if (type == 1)
+					stmt.setString(2, setType[1]);
+				else
+					stmt.setString(2, setType[0]);
+				
 				if (stmt.execute()) {
 					try (ResultSet rs = stmt.executeQuery()) {
 						while (rs.next()) {
@@ -107,14 +124,35 @@ public class ReimbTableDAO {
 		return reimb;
 	}
 	
-	public  ArrayList<ReimbReq> getReimbRequests(String username) {
-		final String sql = "SELECT * FROM reimb_table " + "WHERE emp_user_id_fk = ?";
+	public  ArrayList<ReimbReq> 
+		getReimbRequests(String username, int type, boolean status) {
+		
+		String sql = "SELECT * FROM reimb_table " 
+				+ "WHERE emp_user_id_fk = ?";
+		
+		if (status == true)
+			sql += " AND reimb_status = ?;";
+		else
+			sql += ";";
+
+		final String[] setType = {"PENDING","APPROVED","DENIED"};
 
 		ArrayList<ReimbReq> reimbs = new ArrayList<>();
 
 		try (Connection conn = ConnectorUtil.getConnection()) {
 			try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+				
 				stmt.setString(1, username);
+				
+				if (status == true) {
+					if (type == 2)
+						stmt.setString(2, setType[2]);
+					else if (type == 1)
+						stmt.setString(2, setType[1]);
+					else
+						stmt.setString(2, setType[0]);
+				}
+				
 				if (stmt.execute()) {
 					try (ResultSet rs = stmt.executeQuery()) {
 						while (rs.next()) {
@@ -129,7 +167,7 @@ public class ReimbTableDAO {
 		return reimbs;
 	}
 
-	public static void getRecieptFilePaths(String username, ReimbReq request) {
+	public  void getRecieptFilePaths(String username, ReimbReq request) {
 		final String sql = "SELECT reimb_reciepts_table.reciept_img_path "
 				+ "FROM reimb_reciepts_table INNER JOIN reimb_table "
 				+ "ON reimb_table.reimb_id = reimb_reciepts_table.reimb_id_fk "
@@ -151,12 +189,14 @@ public class ReimbTableDAO {
 		}
 	}
 
-	public static ArrayList<OrgMember> getOrgMembers(boolean type) {
+	public  ArrayList<OrgMember> getOrgMembers(boolean type) {
 		ArrayList<OrgMember> list = new ArrayList<>();
 		String sql = "";
 		try (Connection conn = ConnectorUtil.getConnection()) {
 			if (type) {
-				sql = "SELECT user_id, first_name, " + "last_name, manager, passwd, " + "email FROM employees_table;";
+				sql = "SELECT user_id, first_name, " + 
+						"last_name, manager, passwd, " + 
+						"email FROM employees_table;";
 			} else {
 				sql = "SELECT * FROM employees_table;";
 			}
@@ -178,12 +218,13 @@ public class ReimbTableDAO {
 		return list;
 	}
 
-	public static OrgMember getOrgMember(String username, boolean type) {
+	public  OrgMember getOrgMember(String username, boolean type) {
 		String sql = "";
 		OrgMember orgm = null;
 		try (Connection conn = ConnectorUtil.getConnection()) {
 			if (type) {
-				sql = "SELECT user_id, first_name, " + "last_name, manager, passwd, "
+				sql = "SELECT user_id, first_name, " + 
+						"last_name, manager, passwd, "
 						+ "email FROM employees_table WHERE user_id = ?;";
 			} else {
 				sql = "SELECT * FROM employees_table;";
@@ -207,17 +248,17 @@ public class ReimbTableDAO {
 		return orgm;
 	}
 
-	private static ReimbReq ReimbReqInstance(ResultSet rs) throws SQLException {
+	private  ReimbReq ReimbReqInstance(ResultSet rs) throws SQLException {
 		return new ReimbReq(rs.getString("reimb_id"), rs.getString("reimb_status"), rs.getDouble("reimb_balance"),
 				rs.getString("emp_user_id_fk"), rs.getString("mgr_user_id_fk"));
 	}
 
-	private static OrgMember OrgMemInstance(ResultSet rs) throws SQLException {
+	private  OrgMember OrgMemInstance(ResultSet rs) throws SQLException {
 		return new OrgMember(rs.getString("user_id"), (rs.getString("first_name") + " " + rs.getString("last_name")),
 				rs.getBoolean("manager"), rs.getString("passwd"), rs.getString("email"));
 	}
 
-	private static OrgMember OrgMemCompleteInst(ResultSet rs) throws SQLException {
+	private  OrgMember OrgMemCompleteInst(ResultSet rs) throws SQLException {
 		return new OrgMember(rs.getString("user_id"), (rs.getString("first_name") + " " + rs.getString("last_name")),
 				rs.getBoolean("manager"), rs.getString("passwd"), rs.getString("email"), rs.getString("address"),
 				rs.getString("city"), rs.getString("country"));

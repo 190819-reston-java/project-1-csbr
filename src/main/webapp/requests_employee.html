@@ -5,25 +5,36 @@
     <title>CsBr Expense Reimbursement System (ERS): view my receipts</title>
 </head>
 <body>
-    <p>Change the view to</p><!-- TODO: Make code and this work together ... -->
+    <p>Change the view to</p><!-- TODO: finish this, set values to ... -->
     <!-- <select class="drop_to_show" onchange="location = this.options[this.selectedIndex].value;"> -->
-    <!-- <select class="drop_to_show" data-target=".Reqest_List";> -->
-    <!-- TODO: replace 'value' of options with with reference to get SQL code -->
-    <select onchange="if(selectedIndex!=0)document.getElementById('Request_List').innerHTML=options[selectedIndex].value;">
-        <option>Which Requests would you like to view?</option>
-        <option value="My_Requests">View All My Requests</option>
-
-        <option value="My_Non_Submitted">View My Requests That Have Not Submitted</option>
-        <option value="My_Pending_Requests">View My Pending Requests</option>
-
-        <!-- <option value="Non_Responses">View My Requests That Don't Hove Responses</option> --> <!-- same as Pending -->
-
-        <option value="My_Repied_Requests">View My Requests With Replys</option>
-        <option value="My_Approved_Requests">View Requests That Are Approved</option>
-        <option value="My_Denied_Requests">View Requests That Are Denied</option>
+       <!-- <select class="drop_to_show" data-target=".Reqest_List";> -->
+           <!-- TODO: replace 'value' of options with with reference to get SQL code -->
+	<select id="menu">
+        <option value="base">Which Requests would you like to view?</option>
+        <option value="allreqs">View All My Requests</option>
+        <!--<option value="">View Requests Not Submitted</option>-->
+        <option value="pending">View Pending</option>
+        <!-- <option value="Non_Responses">View My Requests That Don't Hove Responses</option> --> 
+        <!-- same as Pending -->
+        <option value="approved">View Requests That Are Approved</option>
+        <option value="denied">View Requests That Are Denied</option>
 
     </select>
-<div id="Request_List"><p>Pick an option and the request choices will appear here.</p></div>
+	<div><p>Pick an option and the request choices will appear here.</p></div>
+	
+	<div id="table_goes_here">
+	<table id="table_goes_here">
+		<tr>
+			<th>Your Username</th>
+			<th>Status</th>
+			<th>Balance</th>
+			<th>Resolved by</th>
+		</tr>
+		<td id="data"></td>
+	</table>
+	<script src="tables.js"></script>
+	<script src="employee_ops.js"></script>
+
+</div>
 </body>
 </html>
-

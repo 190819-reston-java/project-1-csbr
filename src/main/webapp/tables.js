@@ -1,77 +1,66 @@
 'use strict';
 
 const BASE_URL = "/project-1-CsBr/tables";
-const EMPLOYEE_URL = `${BASE_URL}/employee`;
+/*const EMPLOYEE_URL = `${BASE_URL}/employee`;
 const MANAGER_URL = `${BASE_URL}/manager`;
-const REIMB_URL = `${BASE_URL}/reimb`;
+const REIMB_URL = `${BASE_URL}/reimb`;*/
 
-let menuTable = document.getElementById("menu");
 let reimbTable = document.getElementById("data");
 
 let clearDisplay = () => {
 	reimbTable.innerHTML = "";
 }
 
-let createList = (reimbs) => {
+let createList = (reimbData) => {
 		let row = document.createElement("tr");
 		let td1 = document.createElement("td");
 		let td2 = document.createElement("td");
 		let td3 = document.createElement("td");
 		let td4 = document.createElement("td");
 		
-	  td1.innerText = `${reimbs.origIssuer}`;
+	  td1.innerText = `${reimbData.origIssuer}`;
 	  row.appendChild(td1);
 	  reimbTable.appendChild(row);
-	  td2.innerText = `${reimbs.status}`;
+	  td2.innerText = `${reimbData.status}`;
 	  row.appendChild(td2);
 	  reimbTable.appendChild(row);
-	  td3.innerText = `${reimbs.balance}`;
+	  td3.innerText = `${reimbData.balance}`;
 	  row.appendChild(td3);
 	  reimbTable.appendChild(row);
-	  td4.innerText = `${reimbs.resolver}`;
+	  td4.innerText = `${reimbData.resolver}`;
 	  row.appendChild(td4);
 	  reimbTable.appendChild(row);
-	  
-	  //clearDisplay();
 }
 
-let fetchUtility = (url,mthd) => {
-	fetch(url, { method: mthd })
+let fetchDataUtility = (url) => {
+	fetch(url, 
+		{ method: "GET" })
     .then((response)=>{
-      return response.json();
+    	return response.json();
     })
     .then((reimbJson)=>{
-      //clearDisplay();
-      for(let reimbs in reimbJson) {
-        console.log(reimbJson[reimbs]);
-        createList(reimbJson[reimbs]);
+    	clearDisplay();
+    	for(let reimbs in reimbJson) {
+    		console.log(reimbJson[reimbs]);
+    		createList(reimbJson[reimbs]);
       }
     })
     .catch(console.log);
 }
 
-menuTable.addEventListener("change", (event)=>{
-	if (menuTable.value === "base") {
-		clearDisplay();
-	} else if (menuTable.value === "allreqs") {
-		fetchUtility((EMPLOYEE_URL+"/allreqs"),"GET");
-	} else if (menuTable.value === "pending") {
-		fetchUtility((EMPLOYEE_URL+"/pending"),"GET");
-	} else if (menuTable.value === "approved") {
-		fetchUtility((EMPLOYEE_URL+"/approved"),"GET");
-	} else if (menuTable.value === "denied") {
-		fetchUtility((EMPLOYEE_URL+"/denied"),"GET");
-	} else {
-		reimbTable.innerHTML = "Invalid Directory.";
-	}
-})
-	  //reimbsDisplay.append(li);
-
-/*for (let i = 0; 
-	document.
-	getElementsByTagName("option").
-	length.value; ++i)
-*/
+let fetchNewData = (url,mthd,context) => {
+	fetch(url,	
+		{ method: "POST", body: JSON.stringify(mthd) })
+	.then((response)=> {
+		console.log(response);
+		if(response.status >= 200 && response.status < 300) {
+			console.log(context + " successful");
+		} else {
+		    alert("Failed to " + context);
+		}
+	})
+	.catch(console.error);
+} 
 
 
 
