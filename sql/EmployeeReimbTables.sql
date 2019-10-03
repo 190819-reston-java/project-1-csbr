@@ -56,7 +56,7 @@ $$ LANGUAGE SQL;
 -- CHECK(is_manager(mgr_user_id_fk) = false) -- removed this constraint, a manager can do this as an employeee
 -- However a manager can not self aprove their own stuff 
 
--- TODO: set reimb_id as SERIAL, I remember Carlos saying no to this idea...
+-- TODO: set reimb_id as SERIAL or something like this, I remember Carlos saying no to this idea...
 
 CREATE TABLE reimb_table (
 
@@ -75,7 +75,7 @@ CREATE TABLE reimb_table (
 
 );
 
-
+-- TODO: add something like the reimb_balance NUMERIC(8,2) CHECK(reimb_balance >= 0.0), from above, and REMOVE from Above
 CREATE TABLE reimb_reciepts_table (
 
         reimb_id_fk VARCHAR(8) NOT NULL,
@@ -87,7 +87,7 @@ CREATE TABLE reimb_reciepts_table (
 
 );
 
---SELECT * FROM reimb_reciepts_table;
---SELECT * FROM reimb_table;
---SELECT * FROM employees_table;
+SELECT * FROM reimb_reciepts_table;
+SELECT * FROM reimb_table;
+SELECT * FROM employees_table;
 

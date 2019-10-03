@@ -30,7 +30,7 @@ public class LoginServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		// HttpSession session = req.getSession();
 
-		ReimbTableDAO inst = new ReimbTableDAO();
+		// ReimbTableDAO inst = new ReimbTableDAO();
 
 		String username = (String) req.getAttribute("username");
 		System.out.println("In LoginServlet: " + username);
@@ -39,7 +39,7 @@ public class LoginServlet extends HttpServlet {
 
 		System.out.println(isMgr);
 
-		OrgMember user = inst.getOrgMember(username, true);
+		OrgMember user = ReimbTableDAO.getOrgMember(username, true);
 		System.out.println(user);
 
 		try (PrintWriter pw = resp.getWriter()) {
