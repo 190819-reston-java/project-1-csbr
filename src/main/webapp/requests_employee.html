@@ -9,19 +9,31 @@
     <!-- <select class="drop_to_show" onchange="location = this.options[this.selectedIndex].value;"> -->
        <!-- <select class="drop_to_show" data-target=".Reqest_List";> -->
            <!-- TODO: replace 'value' of options with with reference to get SQL code -->
-        <select onchange="if(selectedIndex!=0)document.getElementById('Request_List').innerHTML=options[selectedIndex].value;">
-        <option>Which Requests would you like to view?</option>
-        <option value="All_Requests">View All My Requests</option>
-        
-        <option value="Non_Submitted">View Requests Not Submitted</option>
-
-        <option value="Pending">View Pending</option>
-        <!-- <option value="Non_Responses">View My Requests That Don't Hove Responses</option> --> <!-- same as Pending -->
-
-        <option value="Approved">View Requests That Are Approved</option>
-        <option value="Denied">View Requests That Are Denied</option>
+	<select id="menu">
+        <option value="base">Which Requests would you like to view?</option>
+        <option value="allreqs">View All My Requests</option>
+        <!--<option value="">View Requests Not Submitted</option>-->
+        <option value="pending">View Pending</option>
+        <!-- <option value="Non_Responses">View My Requests That Don't Hove Responses</option> --> 
+        <!-- same as Pending -->
+        <option value="approved">View Requests That Are Approved</option>
+        <option value="denied">View Requests That Are Denied</option>
 
     </select>
-<div id="Request_List"><p>Pick an option and the request choices will appear here.</p></div>
+	<div><p>Pick an option and the request choices will appear here.</p></div>
+	
+	<div id="table_goes_here">
+	<table id="table_goes_here">
+		<tr>
+			<th>Your Username</th>
+			<th>Status</th>
+			<th>Balance</th>
+			<th>Resolved by</th>
+		</tr>
+		<td id="data"></td>
+	</table>
+	<script src="tables.js"></script>
+
+</div>
 </body>
 </html>

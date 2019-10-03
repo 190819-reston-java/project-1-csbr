@@ -107,6 +107,28 @@ public class ReimbTableDAO {
 		}
 		return reimb;
 	}
+	
+	public  ArrayList<ReimbReq> getReimbRequests(String username) {
+		final String sql = "SELECT * FROM reimb_table " + "WHERE emp_user_id_fk = ?";
+
+		ArrayList<ReimbReq> reimbs = new ArrayList<>();
+
+		try (Connection conn = ConnectorUtil.getConnection()) {
+			try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+				stmt.setString(1, username);
+				if (stmt.execute()) {
+					try (ResultSet rs = stmt.executeQuery()) {
+						while (rs.next()) {
+							reimbs.add(ReimbReqInstance(rs));
+						}
+					}
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return reimbs;
+	}
 
 	public  void getRecieptFilePaths(String username, ReimbReq request) {
 		final String sql = "SELECT reimb_reciepts_table.reciept_img_path "
