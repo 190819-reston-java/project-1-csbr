@@ -82,13 +82,13 @@ public class LoginServlet extends HttpServlet {
 			HttpServletResponse resp, OrgMember user,
 			String username, String password, PrintWriter pw) 
 					throws IOException {
-		if (!user.getPassword().equals(password)) {
+		if (!user.getPassword().equals(password) || password == null) {
 				pw.write("Wrong password.");
 				return false;
 			} else if (password.isEmpty()) {
 				pw.write("Password can't be blank.");
 				return false;
-			} else if (username.isEmpty()) {
+			} else if (username.isEmpty() || username == null) {
 				pw.write("Username can't be blank.");
 				return false;
 			} else if (!user.getPassword().equals(password) && 

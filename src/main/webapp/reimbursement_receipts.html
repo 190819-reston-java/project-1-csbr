@@ -5,12 +5,18 @@
     <title>DCsBr Expense Reimbursement System (ERS): upload a file</title>
 </head>
 <body>
+	<navbar>
+		<a href="contact_info_edit.html">Edit Contact Info</a>
+		<a href="">View Contact Info</a>
+		<a href="requests_employee.html">Back to Requests Page</a>
+		<a href="">Logout</a>
+	</navbar>
     <div id="_"><p>Enter your reimbursement requests here</p></div>
  <!-- TODO: remove the field at the top of the page without ruining things... -->
     <fieldset id = "fields" >
         <input type="file" name="receipt01image" accept="image/gif, image/jpg, image/jpeg, image/png" />
         <p>Input amount of this receipt</p>
-        <input type="number" name="receipt01amount" step=".01" pattern="^\d*(\.\d{0,2})?$" min="0" /> <br />
+        <input type="number" placeholder="$" name="receipt01amount" step=".01" pattern="^\d*(\.\d{0,2})?$" min="0" /> <br />
         <input type="button" id="subtract" name="cleardelete" value="-1">delete/clear this</input><br />
         <input type="button" id="add" name="addAnother" value="+1">add another</input><br />
         <br />

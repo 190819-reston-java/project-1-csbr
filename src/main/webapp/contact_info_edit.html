@@ -7,10 +7,15 @@
   
 </head>
 
-<!-- TODO: add NAV-bar -->
+	<navbar>
+		<a href="requests_employee.html">Back to Requests Page</a>
+		<a href=""><b>View Contact Info</b></a>
+		<a href="reimbursement_reciepts.html"></b>Submit New Reimbursement Request</b></a>
+		<a href=""><b>Logout</b></a>
+	</navbar>
 
 <body>
- <form action="/action_page.php">
+ <form id="contact-edit">
   <fieldset>
     <legend>Contact Information</legend>
 
@@ -41,7 +46,7 @@
      ANSWER: Have to close the tab, not just reload it.
 -->
 
-    <select name="state" value="VA">
+    <select name="state">
         <option value="AL">Alabama</option>
         <option value="AK">Alaska</option>
         <option value="AZ">Arizona</option>
@@ -98,8 +103,11 @@
     Zip:<br />
     <input type="text" name="zip" maxlength=10>
 
+	<input type="submit">
 
   </fieldset>
 </form> 
+<script src="tables.js"></script>
+<script src="form.js"></script>
 </body>
 </html>

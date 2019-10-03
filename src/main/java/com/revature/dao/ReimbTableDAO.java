@@ -89,6 +89,40 @@ public class ReimbTableDAO {
 			StreamCloser.close(stmt);
 		}
 	}
+	
+	public boolean updateEmpContactInfo(OrgMember emp) {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+
+		final String sql = "UPDATE employees_table SET first_name = ?, " 
+				+ "last_name = ?, email = ?, street_address = ?, "
+				+ "city = ?, country = ?"
+				+ "WHERE user_id = ? AND manager = false;";
+
+		String[] name = emp.getName().split(" ");
+		try {
+
+			conn = ConnectorUtil.getConnection();
+			stmt = conn.prepareStatement(sql);
+
+			stmt.setString(1, name[0]);
+			stmt.setString(2, name[1]);
+			stmt.setString(3, emp.getEmail());
+			stmt.setString(4, emp.getAddress());
+			stmt.setString(5, emp.getCity());
+			stmt.setString(6, emp.getCountry());
+			stmt.setString(7, emp.getUsername());
+			stmt.executeQuery();
+			return true;
+
+		} catch (SQLException f) {
+			f.printStackTrace();
+			return false;
+		} finally {
+			StreamCloser.close(conn);
+			StreamCloser.close(stmt);
+		}
+	}
 
 	public  ReimbReq getReimbRequest(String username, int type) {
 		

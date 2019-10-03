@@ -32,7 +32,7 @@ let createList = (reimbData) => {
 	  reimbTable.appendChild(row);
 }
 
-let fetchDataUtility = (url) => {
+let fetchDataUtility = (url,bool) => {
 	fetch(url, 
 		{ method: "GET" })
     .then((response)=>{
@@ -40,10 +40,15 @@ let fetchDataUtility = (url) => {
     })
     .then((reimbJson)=>{
     	clearDisplay();
-    	for(let reimbs in reimbJson) {
-    		console.log(reimbJson[reimbs]);
-    		createList(reimbJson[reimbs]);
-      }
+    	if (bool === true) {
+    		for(let reimbs in reimbJson) {
+    			console.log(reimbJson[reimbs]);
+    			createList(reimbJson[reimbs]);
+    		}
+    	} else {
+    		console.log(reimbJson);
+			createList(reimbJson);
+    	}
     })
     .catch(console.log);
 }
@@ -54,7 +59,7 @@ let fetchNewData = (url,mthd,context) => {
 	.then((response)=> {
 		console.log(response);
 		if(response.status >= 200 && response.status < 300) {
-			console.log(context + " successful");
+			console.log("Suceeded in " + context);
 		} else {
 		    alert("Failed to " + context);
 		}

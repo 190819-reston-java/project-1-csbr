@@ -6,7 +6,7 @@ let container = document.getElementById("fields");
 let receiptCount = 1;
 let receiptCountString = receiptCount;
 
-function stringName()
+let stringName = () =>
 {
     // ideally limit to 99 receipts or less
     if(receiptCount<10){
@@ -20,8 +20,9 @@ function stringName()
 // TODO: remove fieldsets that are empty rather than delete last one.
 // TODO: don't add one more if last fieldset is empty
 // TODO: What to do if a feildset is empty?
-function onemore()
+let onemore = () => 
 {
+	
     stringName();
 
     let newreceiptimage = document.createElement("input");
@@ -30,6 +31,7 @@ function onemore()
     newreceiptimage.accept="image/gif, image/jpg, image/jpeg, image/png";
     
     let newreceiptamount = document.createElement("input");
+    newreceiptamount.placeholder = "$";
     newreceiptamount.type="number";
     newreceiptamount.name=`receipt${receiptCountString}amount`;
     newreceiptamount.step=".01";
@@ -41,7 +43,7 @@ function onemore()
     receiptCount++;
 };
 
-function oneless(){
+let oneless = () => {
     //stringName();
     if(receiptCount>1){
         // TODO: this feels like cheating... do something like add div / remove div group
