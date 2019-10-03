@@ -66,14 +66,41 @@ INSERT INTO reimb_table(reimb_id, reimb_status, reimb_balance, mgr_user_id_fk, e
 
 INSERT INTO reimb_table(reimb_id,   reimb_status, reimb_balance, mgr_user_id_fk, emp_user_id_fk)
      VALUES (           'ranson24', 'PENDING',   80.33,         'whois',        'jkrow8');
-    
+
+-- 2 for testing for now
+
 --delete from reimb_manager where reimb_id = 'PL9q1oYz';
-	
-SELECT reimb_reciepts_table.reciept_img_path FROM reimb_reciepts_table
+
+-- TODO: figure out what this was trying to do...
+SELECT reimb_reciepts_table.reciept_img_path FROM reimb_reciepts_table_2
 INNER JOIN reimb_table ON reimb_table.reimb_id = reimb_reciepts_table.reimb_id_fk 
 WHERE reimb_table.emp_user_id_fk = 'asdf134';
+
+CREATE TABLE reimb_reciepts_table_2 (
+
+        reimb_id_fk VARCHAR(8) NOT NULL,
+        reciept_img_path VARCHAR(122) PRIMARY KEY,
+        
+        amount NUMERIC(8,2) DEFAULT 0.00,
+        
+        added_time TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+
+        FOREIGN KEY (reimb_id_fk) REFERENCES reimb_table(reimb_id)
+
+);
+
+INSERT INTO reimb_reciepts_table_2(reimb_id_fk, reciept_img_path) VALUES ('034jg0j', 'csomething');
+INSERT INTO reimb_reciepts_table_2(reimb_id_fk, reciept_img_path, amount) VALUES ('034jg0j', 'csomething2', 9.09);
+INSERT INTO reimb_reciepts_table_2(reimb_id_fk, reciept_img_path, amount) VALUES ('034jg0j', 'csomething55', 0.01);
+INSERT INTO reimb_reciepts_table_2(reimb_id_fk, reciept_img_path, amount) VALUES ('034jg0j', 'csomething3', 1.11); 
+INSERT INTO reimb_reciepts_table_2(reimb_id_fk, reciept_img_path, amount) VALUES ('ranson24', 'csomething44', 1.11); 
+
 
 select * from employees_table;
 select * from reimb_table;
 select * from reimb_reciepts_table;
-	
+
+-- Gets the sum of the reiceipts for a reimbursement set '034jg0j' -- was reimb_table.reimb_balance
+-- TODO: edit reimb_table.reimb_balance in the table creation, see notes around that about editing it.
+SELECT sum(amount) FROM reimb_reciepts_table_2 WHERE reimb_id_fk='034jg0j';
+

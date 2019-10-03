@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CsBr Expense Reimbursement System (ERS): view my receipts</title>
+</head>
+<body>
+    <p>Change the view to</p><!-- TODO: finish this, set values to ... -->
+    <!-- <select class="drop_to_show" onchange="location = this.options[this.selectedIndex].value;"> -->
+    <!-- <select class="drop_to_show" data-target=".Reqest_List";> -->
+    <!-- TODO: replace 'value' of options with with reference to get SQL code -->
+
+        <select onchange="if(selectedIndex!=0)document.getElementById('Request_List').innerHTML=options[selectedIndex].value;">
+
+            <option value="">Which Requests would you like to view?</option>
+            <option value="All_Requests">View All Employee Requests</option>
+            
+            <option value="Pending_Requests">View Requests Available to Approve</option>
+
+            <option value="Replied_Requests">View Requests That Are Replied To</option>
+            <option value="Approved_Requests">View Requests That Are Approvied</option>
+            <option value="Denied_Requests">View Requests That Are Denied</option>
+
+            <option value="Replied_By_Me_Requests">View Requests That I Have Replied To</option>
+            <option value="Denied_By_Me_Requests">View Requests That Have been Denied</option>
+            <option value="Approved_By_Me_Requests">View Requests That I have Approved</option>
+
+        </select>
+
+        <div id="Request_List"><p>Pick an option and the request choices will appear here.</p></div>
+    </body>
+</html>
+

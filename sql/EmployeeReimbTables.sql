@@ -4,15 +4,17 @@
 
 -- TODO: set it to auto generate ID numbers?...
 
--- Drop tables generally should be in reverse creation order (assuming it was made it the right order)
-
- DROP TABLE reimb_reciepts_table;
- DROP TABLE reimb_table;
- DROP FUNCTION is_manager(usr_id_loc varchar);
- DROP TABLE employees_table;
-
-
 --CREATE DATABASE ReimbursementProgram;
+
+-- Drop tables generally should be in reverse creation order (assuming it was made in the right order)
+
+--DROP TABLE reimb_reciepts_table;
+--DROP TABLE reimb_table;
+--DROP FUNCTION is_manager(usr_id_loc varchar);
+--DROP TABLE employees_table;
+
+
+
 
 
 CREATE table employees_table (
@@ -54,8 +56,8 @@ $$ LANGUAGE SQL;
 -- CHECK(is_manager(mgr_user_id_fk) = false) -- removed this constraint, a manager can do this as an employeee
 -- However a manager can not self aprove their own stuff 
 
--- TODO: set reimb_id as SERIAL, I remember Carlos saying no to this idea...
-
+-- TODO: set reimb_id as SERIAL or something like this, I remember Carlos saying no to this idea...
+-- TODO: remove balance from reimb_table and add amount to reimb_reciepts_table -- adjust java code, queries, etc.. as necessary
 CREATE TABLE reimb_table (
 
         reimb_id VARCHAR(8) PRIMARY KEY,
@@ -73,7 +75,7 @@ CREATE TABLE reimb_table (
 
 );
 
-
+-- TODO: add something like the reimb_balance NUMERIC(8,2) CHECK(reimb_balance >= 0.0), from above, and REMOVE from Above
 CREATE TABLE reimb_reciepts_table (
 
         reimb_id_fk VARCHAR(8) NOT NULL,
@@ -85,7 +87,8 @@ CREATE TABLE reimb_reciepts_table (
 
 );
 
---SELECT * FROM reimb_reciepts_table;
---SELECT * FROM reimb_table;
---SELECT * FROM employees_table;
+SELECT * FROM reimb_reciepts_table;
+SELECT * FROM reimb_table;
+SELECT * FROM employees_table;
 
+--SELECT * FROM reimb_reciepts_table JOIN reimb_table ON reimb_id_fk=reimb_id;

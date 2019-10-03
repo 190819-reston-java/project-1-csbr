@@ -9,35 +9,36 @@ public class ReimbTableDAOIntegrationTest {
 		
 		System.out.println("Hello");
 		
-		OrgMember ell = ReimbTableDAO.
+		ReimbTableDAO test = new ReimbTableDAO();
+		OrgMember ell = test.
 				getOrgMember("jkrow8", true);
 		
 		System.out.println(ell);
 		
-		ReimbReq all = ReimbTableDAO.
+		ReimbReq all = test.
 				getReimbRequest("jkrow8");
-		ReimbTableDAO.getRecieptFilePaths("jkrow8", all);
+		test.getRecieptFilePaths("jkrow8", all);
 		
 		System.out.println(all);
 		
-		System.out.println(ReimbTableDAO.getOrgMembers(true));
+		System.out.println(test.getOrgMembers(true));
 		
-		OrgMember aell = ReimbTableDAO.
+		OrgMember aell = test.
 				getOrgMember("asdf134", true);
-		OrgMember bell = ReimbTableDAO.
+		OrgMember bell = test.
 				getOrgMember("whois", true);
 		
 		
-		ReimbReq ael = //ReimbTableDAO.getReimbRequest("asdf134");
+		ReimbReq ael = //test.getReimbRequest("asdf134");
 				// above is the retrieval of the record for "asdf134"
 				// below is the new ReimbReq object to pass to database.
 		new ReimbReq("PENDING",40.00,aell.getUsername(),bell.getUsername());
 		//ael.setFilePath("c:/blah/eeejroe.png");
-		//ReimbTableDAO.addNewReimbRequest(ael);
-		//ReimbTableDAO.addNewReimbReciept(ael);
+		//test.addNewReimbRequest(ael);
+		//test.addNewReimbReciept(ael);
 		
 		
-		ReimbTableDAO.getRecieptFilePaths("asdf134", ael);
+		test.getRecieptFilePaths("asdf134", ael);
 		System.out.println(ael);
 	}
 
