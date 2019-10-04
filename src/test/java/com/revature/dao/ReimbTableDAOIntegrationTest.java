@@ -27,7 +27,7 @@ public class ReimbTableDAOIntegrationTest {
 		ReimbReq ael = // test.getReimbRequest("asdf134");
 				// above is the retrieval of the record for "asdf134"
 				// below is the new ReimbReq object to pass to database.
-				new ReimbReq("PENDING", 40.00, aell.getUsername(), bell.getUsername());
+				new ReimbReq("PENDING", aell.getUsername(), bell.getUsername());
 		// ael.setFilePath("c:/blah/eeejroe.png");
 		// test.addNewReimbRequest(ael);
 		// test.addNewReimbReciept(ael);

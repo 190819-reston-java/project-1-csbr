@@ -23,18 +23,21 @@ public class ReimbTableServlet extends HttpServlet {
 	private static final long serialVersionUID = -8061698734527718100L;
 
 	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		service(req, resp);
 	}
 
 	@Override
-	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	protected void service(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
 
 		String[] splitURI = req.getRequestURI().split("/");
 
 		String[] tokens = Arrays.copyOfRange(splitURI, 3, splitURI.length);
-		// This line above basically extracts the tokens that will be used for the
+		// This line above basically extracts the tokens that will be used for
+		// the
 		// helper functions below.
 
 		// System.out.println(Arrays.toString(tokens));
@@ -75,8 +78,9 @@ public class ReimbTableServlet extends HttpServlet {
 	 * @param username not used
 	 * @param m
 	 */
-	private static void ManagerHandler(HttpServletRequest req, HttpServletResponse resp, ObjectMapper obm,
-			PrintWriter prnt, String[] tokens, String username, ReimbTableDAO m) {
+	private static void ManagerHandler(HttpServletRequest req,
+			HttpServletResponse resp, ObjectMapper obm, PrintWriter prnt,
+			String[] tokens, String username, ReimbTableDAO m) {
 		String jsonReimbData = "";
 		System.out.println(req.getMethod());
 		System.out.println("heeey: " + tokens[1]);
@@ -84,7 +88,8 @@ public class ReimbTableServlet extends HttpServlet {
 		if (req.getMethod().equals("GET")) {
 			if (tokens[1].equals("allemployees"))
 				try {
-					jsonReimbData = obm.writeValueAsString(ReimbTableDAO.getOrgMembers(false));
+					jsonReimbData = obm.writeValueAsString(
+							ReimbTableDAO.getOrgMembers(false));
 					System.out.println(jsonReimbData);
 					prnt.write(jsonReimbData);
 				} catch (JsonProcessingException ae) {
@@ -98,8 +103,9 @@ public class ReimbTableServlet extends HttpServlet {
 	 * @param resp unused
 	 * @param m
 	 */
-	private static void EmployeeHandler(HttpServletRequest req, HttpServletResponse resp, ObjectMapper obm,
-			PrintWriter prnt, String[] tokens, String username, ReimbTableDAO m) {
+	private static void EmployeeHandler(HttpServletRequest req,
+			HttpServletResponse resp, ObjectMapper obm, PrintWriter prnt,
+			String[] tokens, String username, ReimbTableDAO m) {
 		String jsonReimbData = "";
 		System.out.println(req.getMethod());
 		System.out.println("heeey: " + tokens[1]);
@@ -107,7 +113,8 @@ public class ReimbTableServlet extends HttpServlet {
 		if (req.getMethod().equals("GET")) {
 			if (tokens[1].equals("allreqs")) {
 				try {
-					jsonReimbData = obm.writeValueAsString(ReimbTableDAO.getReimbRequests(username, 0, false));
+					jsonReimbData = obm.writeValueAsString(
+							ReimbTableDAO.getReimbRequests(username, 0, false));
 					System.out.println(jsonReimbData);
 					prnt.write(jsonReimbData);
 				} catch (JsonProcessingException ae) {
@@ -115,7 +122,8 @@ public class ReimbTableServlet extends HttpServlet {
 				}
 			} else if (tokens[1].equals("pending")) {
 				try {
-					jsonReimbData = obm.writeValueAsString(ReimbTableDAO.getReimbRequests(username, 0, true));
+					jsonReimbData = obm.writeValueAsString(
+							ReimbTableDAO.getReimbRequests(username, 0, true));
 					System.out.println(jsonReimbData);
 					prnt.write(jsonReimbData);
 				} catch (JsonProcessingException ae) {
@@ -123,7 +131,8 @@ public class ReimbTableServlet extends HttpServlet {
 				}
 			} else if (tokens[1].equals("approved")) {
 				try {
-					jsonReimbData = obm.writeValueAsString(ReimbTableDAO.getReimbRequests(username, 1, true));
+					jsonReimbData = obm.writeValueAsString(
+							ReimbTableDAO.getReimbRequests(username, 1, true));
 					System.out.println(jsonReimbData);
 					prnt.write(jsonReimbData);
 				} catch (JsonProcessingException ae) {
@@ -131,7 +140,8 @@ public class ReimbTableServlet extends HttpServlet {
 				}
 			} else if (tokens[1].equals("denied")) {
 				try {
-					jsonReimbData = obm.writeValueAsString(ReimbTableDAO.getReimbRequests(username, 2, true));
+					jsonReimbData = obm.writeValueAsString(
+							ReimbTableDAO.getReimbRequests(username, 2, true));
 					System.out.println(jsonReimbData);
 					prnt.write(jsonReimbData);
 				} catch (JsonProcessingException ae) {
@@ -150,9 +160,10 @@ public class ReimbTableServlet extends HttpServlet {
 		// We'll read JSON from the request body
 		/*
 		 * player = om.readValue(req.getReader(), Player.class); //This should
-		 * definitely be more informative. if(!playerService.createPlayer(player)) {
-		 * resp.sendError(400, "Failed to create player"); } else {
-		 * pw.write("Successful creation"); }
+		 * definitely be more informative.
+		 * if(!playerService.createPlayer(player)) { resp.sendError(400,
+		 * "Failed to create player"); } else { pw.write("Successful creation");
+		 * }
 		 */
 		// break;
 	}

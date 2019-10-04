@@ -58,6 +58,7 @@ $$ LANGUAGE SQL;
 
 -- TODO: set reimb_id as SERIAL or something like this, I remember Carlos saying no to this idea...
 -- TODO: remove balance from reimb_table and add amount to reimb_reciepts_table -- adjust java code, queries, etc.. as necessary
+
 CREATE TABLE reimb_table (
 
         reimb_id VARCHAR(8) PRIMARY KEY,
@@ -75,17 +76,16 @@ CREATE TABLE reimb_table (
 
 );
 
--- TODO: add something like the reimb_balance NUMERIC(8,2) CHECK(reimb_balance >= 0.0), from above, and REMOVE from Above
 CREATE TABLE reimb_reciepts_table (
 
         reimb_id_fk VARCHAR(8) NOT NULL,
         reciept_img_path VARCHAR(122) PRIMARY KEY,
-        
+        amount NUMERIC(8,2) DEFAULT 0.00,   
         added_time TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-
+        
         FOREIGN KEY (reimb_id_fk) REFERENCES reimb_table(reimb_id)
-
 );
+
 
 SELECT * FROM reimb_reciepts_table;
 SELECT * FROM reimb_table;

@@ -18,8 +18,8 @@ public class ReimbTableDAO {
 		Connection conn = null;
 		PreparedStatement stmt = null;
 
-		final String sql = "INSERT INTO reimb_table" + "(reimb_id,reimb_status,reimb_balance,"
-				+ "mgr_user_id_fk,emp_user_id_fk) " + "VALUES(?,?,?,?,?);";
+		final String sql = "INSERT INTO reimb_table" + "(reimb_id,reimb_status"
+				+ "mgr_user_id_fk,emp_user_id_fk) " + "VALUES(?,?,?,?);";
 		try {
 
 			conn = ConnectorUtil.getConnection();
@@ -28,9 +28,9 @@ public class ReimbTableDAO {
 
 			stmt.setString(1, req.getID());
 			stmt.setString(2, "PENDING");
-			stmt.setDouble(3, req.getBalance());
-			stmt.setString(4, req.getResolver());
-			stmt.setString(5, req.getOrigIssuer());
+			//stmt.setDouble(3, req.getBalance());
+			stmt.setString(3, req.getResolver());
+			stmt.setString(4, req.getOrigIssuer());
 			stmt.execute();
 
 		} catch (SQLException f) {
@@ -44,14 +44,17 @@ public class ReimbTableDAO {
 	public static void addNewReimbReciept(ReimbReq req) {
 		Connection conn = null;
 		PreparedStatement stmt = null;
-		final String sql = "INSERT INTO reimb_reciepts_table" + "(reimb_id_fk,reciept_img_path) " + "VALUES(?,?);";
+		// TODO: add one '?' and add values to it //  , amount , ?
+		final String sql = "INSERT INTO reimb_reciepts_table" + "(reimb_id_fk,reciept_img_path) " + "VALUES(?,?);"; 
 		try {
 			conn = ConnectorUtil.getConnection();
 			stmt = conn.prepareStatement(sql);
 
-			stmt.setString(1, req.getID());
+			stmt.setString(1, req.getID()); // reimb_id_fk;
 			// links to ReimbReq's arrayList, hence the position variable.
-			stmt.setString(2, req.getFilePath(0));
+			// TODO: understand this/these better, so I can add an anther variable
+			stmt.setString(2, req.getFilePath(0));  
+			// stmt.setString(3, req.);
 			stmt.execute();
 		} catch (SQLException w) {
 			w.printStackTrace();
@@ -238,7 +241,7 @@ public class ReimbTableDAO {
 	}
 
 	private static ReimbReq ReimbReqInstance(ResultSet rs) throws SQLException {
-		return new ReimbReq(rs.getString("reimb_id"), rs.getString("reimb_status"), rs.getDouble("reimb_balance"),
+		return new ReimbReq(rs.getString("reimb_id"), rs.getString("reimb_status"),
 				rs.getString("emp_user_id_fk"), rs.getString("mgr_user_id_fk"));
 	}
 
