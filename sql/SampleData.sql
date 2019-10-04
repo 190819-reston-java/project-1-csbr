@@ -47,6 +47,7 @@ INSERT INTO reimb_reciepts_table(reimb_id_fk,reciept_img_path)
 INSERT INTO reimb_table(reimb_id,reimb_status, reimb_balance,mgr_user_id_fk,emp_user_id_fk)
      VALUES('034jg0j','PENDING',80.00,'ronson24','jkrow8');
 
+
 INSERT INTO reimb_reciepts_table(reimb_id_fk,reciept_img_path)
      VALUES('034jg0j','c:/blah/oh-look-another.jpg');
 
@@ -81,7 +82,6 @@ INSERT INTO reimb_reciepts_table_2(reimb_id_fk, reciept_img_path, amount) VALUES
 INSERT INTO reimb_reciepts_table_2(reimb_id_fk, reciept_img_path, amount) VALUES ('034jg0j', 'csomething55', 0.01);
 INSERT INTO reimb_reciepts_table_2(reimb_id_fk, reciept_img_path, amount) VALUES ('034jg0j', 'csomething3', 1.11); 
 INSERT INTO reimb_reciepts_table_2(reimb_id_fk, reciept_img_path, amount) VALUES ('ranson24', 'csomething44', 1.11); 
-
 
 select * from employees_table;
 select * from reimb_table;

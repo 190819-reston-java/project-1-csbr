@@ -13,10 +13,6 @@
 --DROP FUNCTION is_manager(usr_id_loc varchar);
 --DROP TABLE employees_table;
 
-
-
-
-
 CREATE table employees_table (
 
         user_id VARCHAR(31) PRIMARY KEY, -- Worker's username
@@ -58,12 +54,12 @@ $$ LANGUAGE SQL;
 
 -- TODO: set reimb_id as SERIAL or something like this, I remember Carlos saying no to this idea...
 -- TODO: remove balance from reimb_table and add amount to reimb_reciepts_table -- adjust java code, queries, etc.. as necessary
-
+-- moving balance from here, and putting simular thing in reimb_reciepts_table -- reimb_balance NUMERIC(8,2) CHECK(reimb_balance >= 0.0),
 CREATE TABLE reimb_table (
 
         reimb_id VARCHAR(8) PRIMARY KEY,
         reimb_status VARCHAR(13) NOT NULL CHECK(reimb_status IN ('NOTSUBMITTED','PENDING', 'APPROVED', 'DENIED')),
-        reimb_balance NUMERIC(8,2) CHECK(reimb_balance >= 0.0),
+        
         mgr_user_id_fk VARCHAR(31) CHECK(mgr_user_id_fk IS NULL OR is_manager(mgr_user_id_fk) = TRUE ),
         emp_user_id_fk VARCHAR(31) NOT NULL,
         
@@ -80,8 +76,8 @@ CREATE TABLE reimb_reciepts_table (
 
         reimb_id_fk VARCHAR(8) NOT NULL,
         reciept_img_path VARCHAR(122) PRIMARY KEY,
-        amount NUMERIC(8,2) DEFAULT 0.00,   
         added_time TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+        amount NUMERIC(8,2) DEFAULT 0.00,
         
         FOREIGN KEY (reimb_id_fk) REFERENCES reimb_table(reimb_id)
 );
